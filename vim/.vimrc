@@ -1,1 +1,0 @@
-/home/isael/Dropbox/config/vim/.vimrc
