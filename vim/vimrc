@@ -21,6 +21,7 @@ Plugin 'jlanzarotta/bufexplorer'
 Plugin 'godlygeek/tabular'
 Plugin 'juneedahamed/svnj.vim'
 Plugin 'nachumk/systemverilog.vim'
+Plugin 'altercation/vim-colors-solarized'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -122,3 +123,10 @@ filetype plugin indent on    " required
  "To insert blank lines without entering insert mode
  noremap <silent> <C-o> o<Esc>j
  
+"Change Color theme
+syntax enable
+if has('gui_running')
+    set background=dark
+    colorscheme solarized
+    call togglebg#map("<F5>")
+endif
