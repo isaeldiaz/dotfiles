@@ -22,6 +22,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'juneedahamed/svnj.vim'
 Plugin 'nachumk/systemverilog.vim'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'file:///~/dotfiles/vim/plugin/highlights'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -130,3 +131,5 @@ if has('gui_running')
     colorscheme solarized
     call togglebg#map("<F5>")
 endif
+
+
