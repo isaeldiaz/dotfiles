@@ -22,7 +22,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'juneedahamed/svnj.vim'
 Plugin 'nachumk/systemverilog.vim'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'file:///~/dotfiles/vim/plugin/highlights'
+Plugin 'finbarrocallaghan/highlights.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -132,4 +132,5 @@ if has('gui_running')
     call togglebg#map("<F5>")
 endif
 
-
+" associate *.r with Xml filetype
+au BufRead,BufNewFile *.r set filetype=xml
