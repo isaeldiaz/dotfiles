@@ -1,6 +1,6 @@
 
 # load zgen
-source "${HOME}/.zsh/plugins/zgen/zgen.zsh"
+source "${HOME}/config/zgen/zgen.zsh"
 
 # check if there's no init script
 if ! zgen saved; then
@@ -11,9 +11,6 @@ if ! zgen saved; then
     # plugins
     zgen load zsh-users/fasd
 
-     # Nordic specific plugins
-    zgen oh-my-zsh plugins/svn-fast-info
-    zgen oh-my-zsh themes/pygmalion
 
     # save all to init script
     zgen save
