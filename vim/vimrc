@@ -2,7 +2,11 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+if has("win32")
+  set rtp+=$HOME/vimfiles/bundle/Vundle.vim
+else
+  set rtp+=~/.vim/bundle/Vundle.vim
+endif
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
@@ -19,7 +23,6 @@ Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-surround'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'godlygeek/tabular'
-Plugin 'juneedahamed/svnj.vim'
 Plugin 'nachumk/systemverilog.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'finbarrocallaghan/highlights.vim'
