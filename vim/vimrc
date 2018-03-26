@@ -36,6 +36,7 @@ Plugin 'triglav/vim-visual-increment'
 Plugin 'tomtom/tlib_vim'
 Plugin 'isaeldiaz/vim-fasd'
 Plugin 'Yggdroot/indentLine'
+Plugin 'jeffkreeftmeijer/vim-numbertoggle'
 
 
 " All of your Plugins must be added before the following line
