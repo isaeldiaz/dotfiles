@@ -33,6 +33,10 @@ Plugin 'finbarrocallaghan/highlights.vim'
 Plugin 'chrisbra/vim-diff-enhanced'
 Plugin 'scrooloose/nerdtree.git'
 Plugin 'triglav/vim-visual-increment'
+Plugin 'tomtom/tlib_vim'
+Plugin 'isaeldiaz/vim-fasd'
+Plugin 'Yggdroot/indentLine'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -157,4 +161,6 @@ map <C-n> :NERDTreeToggle<CR>
 " Close vim if the only window left open is a NERDTree?
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+
+:set guioptions-=T  "remove toolbar
 
