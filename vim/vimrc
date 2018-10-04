@@ -37,6 +37,8 @@ Plugin 'tomtom/tlib_vim'
 Plugin 'isaeldiaz/vim-fasd'
 Plugin 'Yggdroot/indentLine'
 Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'flazz/vim-colorschemes'
 
 
 " All of your Plugins must be added before the following line
@@ -145,7 +147,8 @@ filetype plugin indent on    " required
 syntax enable
 if has('gui_running')
     set background=dark
-    colorscheme solarized
+    colorscheme wombat
+    "colorscheme solarized
     call togglebg#map("<F5>")
 endif
 
@@ -158,7 +161,11 @@ au BufRead,BufNewFile *.upf set filetype=tcl
 set noswapfile
 
 " NERDTree to open NERDTree with Ctrl+n
-map <C-n> :NERDTreeToggle<CR>:set number<CR>
+map <C-n> :NERDTreeToggle<CR>
+
+"To allow NERDTree to have line numbers
+let NERDTreeShowLineNumbers=1
+
 " Close vim if the only window left open is a NERDTree?
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
