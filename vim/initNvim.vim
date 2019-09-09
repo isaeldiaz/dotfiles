@@ -17,7 +17,6 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'godlygeek/tabular'
 Plug 'nachumk/systemverilog.vim'
 Plug 'icymind/NeoSolarized'
-Plug 'finbarrocallaghan/highlights.vim'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'scrooloose/nerdtree'
 Plug 'triglav/vim-visual-increment'
@@ -26,21 +25,20 @@ Plug 'Yggdroot/indentLine'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'plasticboy/vim-markdown'
 Plug 'flazz/vim-colorschemes'
-Plug 'mhinz/vim-grepper'
 Plug 'scrooloose/nerdcommenter'
-Plug 'easymotion/vim-easymotion'
 call plug#end()
 
 set number relativenumber
 
-" enable line numbers
+" NERDTree configuation 
 let NERDTreeShowLineNumbers=1
-"Open NERDTree with Ctrl+n
-map <C-n> :NERDTreeToggle<CR>
+map <F2> :NERDTreeToggle<CR>
+map <F3> :NERDTreeFind<CR>
+map <Leader>n :NERDTreeFocus<CR>
 
 
 " Enable solarized
- colorscheme NeoSolarized
+colorscheme NeoSolarized
 set background=dark
 
 
