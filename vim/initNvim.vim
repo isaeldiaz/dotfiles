@@ -29,6 +29,10 @@ Plug 'scrooloose/nerdcommenter'
 call plug#end()
 
 set number relativenumber
+"
+" Map the leader key to SPACE
+let mapleader="\<SPACE>"
+
 
 " NERDTree configuation 
 let NERDTreeShowLineNumbers=1
@@ -58,9 +62,6 @@ set background=dark
  set number
  set nomousehide
  set mouse=a
-
-" Map the leader key to SPACE
-let mapleader="\<SPACE>"
 
 " Can be typed even faster than jj, and if you are already in
 "    normal mode, you (usually) don't accidentally move:
