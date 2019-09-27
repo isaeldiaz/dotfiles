@@ -78,3 +78,9 @@ set background=dark
 " Remove = and : from the filename characters
 set isfname-=:
 set isfname-==
+
+"Window navigation
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
