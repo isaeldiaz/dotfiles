@@ -1,6 +1,14 @@
 
 if has('win32') || has ('win64')
   let plugPath='C:\Users\isdi\.config\nvim\plugged'
+  
+  "To use powershell (on Windows): >
+  set shell=powershell shellquote=( shellpipe=\| shellredir=> shellxquote=
+  set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
+
+  " Esc to leave terminal mode
+  tnoremap <Esc> <C-\><C-n>
+
 else
   let plugPath='~\.config\nvim\plugged'
 endif
@@ -37,7 +45,7 @@ let mapleader="\<SPACE>"
 " NERDTree configuation 
 let NERDTreeShowLineNumbers=1
 map <F2> :NERDTreeToggle<CR>
-map <F3> :NERDTreeFind<CR>
+map <F3> :NERDTreeFind %<CR>
 map <Leader>n :NERDTreeFocus<CR>
 
 
