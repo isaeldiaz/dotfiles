@@ -1,3 +1,5 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
 if has('win32') || has ('win64')
   let plugPath='C:\Users\isdi\.config\nvim\plugged'
@@ -35,6 +37,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'flazz/vim-colorschemes'
 Plug 'scrooloose/nerdcommenter'
 call plug#end()
+filetype plugin indent on    " required
 
 set number relativenumber
 "
@@ -59,8 +62,20 @@ set background=dark
  set list
  
 
+"Change Color theme
+syntax enable
+if has('gui_running')
+    set background=dark
+    colorscheme wombat
+    "colorscheme solarized
+    call togglebg#map("<F5>")
+endif
+
+
  " Associate r files to XML syntax
  au BufNewFile,BufRead *.r setlocal ft=xml
+" associate *.upf with Tcl filetype
+au BufRead,BufNewFile *.upf set filetype=tcl
  
  set expandtab
  set tabstop=2
@@ -84,3 +99,6 @@ nmap <C-h> <C-w>h
 nmap <C-j> <C-w>j
 nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
+
+
+:set guioptions-=T  "remove toolbar

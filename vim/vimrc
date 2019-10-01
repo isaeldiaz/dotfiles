@@ -1,148 +1,67 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-if has("win32")
-  set rtp+=$HOME/vimfiles/bundle/Vundle.vim
-  if has("gui_running")
-    " Better font for Windows
-     set guifont=Consolas:h11:cANSI
-  endif
+if has('win32') || has ('win64')
+  let plugPath='C:\Users\isdi\.config\nvim\plugged'
+  
+  "To use powershell (on Windows): >
+  set shell=powershell shellquote=( shellpipe=\| shellredir=> shellxquote=
+  set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
+
+  " Esc to leave terminal mode
+  tnoremap <Esc> <C-\><C-n>
+
 else
-  set rtp+=~/.vim/bundle/Vundle.vim
+  let plugPath='~\.config\nvim\plugged'
 endif
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+"call plug#begin('C:\Users\isdi\.config\nvim\plugged')
+call plug#begin(plugPath)
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-git'
-Plugin 'tpope/vim-surround'
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'godlygeek/tabular'
-Plugin 'nachumk/systemverilog.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'finbarrocallaghan/highlights.vim'
-Plugin 'chrisbra/vim-diff-enhanced'
-Plugin 'scrooloose/nerdtree.git'
-Plugin 'triglav/vim-visual-increment'
-Plugin 'tomtom/tlib_vim'
-Plugin 'isaeldiaz/vim-fasd'
-Plugin 'Yggdroot/indentLine'
-Plugin 'jeffkreeftmeijer/vim-numbertoggle'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'flazz/vim-colorschemes'
-
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-rhubarb'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'godlygeek/tabular'
+Plug 'nachumk/systemverilog.vim'
+Plug 'icymind/NeoSolarized'
+Plug 'chrisbra/vim-diff-enhanced'
+Plug 'scrooloose/nerdtree'
+Plug 'triglav/vim-visual-increment'
+Plug 'tomtom/tlib_vim'
+Plug 'Yggdroot/indentLine'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+Plug 'plasticboy/vim-markdown'
+Plug 'flazz/vim-colorschemes'
+Plug 'scrooloose/nerdcommenter'
+call plug#end()
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-"==================================================
 
- set expandtab
- set tabstop=2
- set shiftwidth=2
- filetype indent on
- set hlsearch
- set number
- set nomousehide
- set mouse=a
- 
- " this turns off physical line wrapping (ie: automatic insertion of newlines)
- set textwidth=0 wrapmargin=0
- set formatoptions-=t
- 
- "Buffer explorer mapping
- nnoremap <C-LeftMouse> :BufExplorer<CR>
- 
+set number relativenumber
+"
+" Map the leader key to SPACE
+let mapleader="\<SPACE>"
+
+
+" NERDTree configuation 
+let NERDTreeShowLineNumbers=1
+map <F2> :NERDTreeToggle<CR>
+map <F3> :NERDTreeFind %<CR>
+map <Leader>n :NERDTreeFocus<CR>
+
+
+" Enable solarized
+colorscheme NeoSolarized
+set background=dark
+
+
  "Show all hidden characters except spaces
  set listchars=tab:>-,trail:~,extends:>,precedes:<
  set list
  
- "set spell spelllang=en_us
- 
- 
- "press \w to toggle wrapping on or off 
- noremap <silent> <Leader>w :call ToggleWrap()<CR>
- "Default nowrap
- set nowrap
- function ToggleWrap()
-   if &wrap
-     echo "Wrap OFF"
-     setlocal nowrap
-     set virtualedit=all
-     set guioptions+=b
-     silent! nunmap <buffer> <Up>
-     silent! nunmap <buffer> <Down>
-     silent! nunmap <buffer> <Home>
-     silent! nunmap <buffer> <End>
-     silent! iunmap <buffer> <Up>
-     silent! iunmap <buffer> <Down>
-     silent! iunmap <buffer> <Home>
-     silent! iunmap <buffer> <End>
-   else
-     echo "Wrap ON"
-     setlocal wrap linebreak nolist
-     set virtualedit=
-     set guioptions-=b
-     setlocal display+=lastline
-     noremap  <buffer> <silent> <Up>   gk
-     noremap  <buffer> <silent> <Down> gj
-     noremap  <buffer> <silent> <Home> g<Home>
-     noremap  <buffer> <silent> <End>  g<End>
-     inoremap <buffer> <silent> <Up>   <C-o>gk
-     inoremap <buffer> <silent> <Down> <C-o>gj
-     inoremap <buffer> <silent> <Home> <C-o>g<Home>
-     inoremap <buffer> <silent> <End>  <C-o>g<End>
-   endif
- endfunction
- 
- "The cursor movement keys are mapped to move by display lines
- noremap  <buffer> <silent> k gk
- noremap  <buffer> <silent> j gj
- noremap  <buffer> <silent> 0 g0
- noremap  <buffer> <silent> $ g$
- 
- "To place yanked text into the global clipboard
- "set clipboard=unnamedplus
- 
- "To visually select text then press ~ to convert the text to UPPER CASE, then to lower case, then to Title Case. Keep pressing ~ until you get the case you want
- function! TwiddleCase(str)
-   if a:str ==# toupper(a:str)
-     let result = tolower(a:str)
-   elseif a:str ==# tolower(a:str)
-     let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
-   else
-     let result = toupper(a:str)
-   endif
-   return result
- endfunction
- vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
- 
- "To get the mouse popup on right-click
- set mousemodel=popup
- 
- "To insert blank lines without entering insert mode
- noremap <silent> <C-o> o<Esc>j
- 
+
 "Change Color theme
 syntax enable
 if has('gui_running')
@@ -152,22 +71,34 @@ if has('gui_running')
     call togglebg#map("<F5>")
 endif
 
-" associate *.r with Xml filetype
-au BufRead,BufNewFile *.r set filetype=xml
+
+ " Associate r files to XML syntax
+ au BufNewFile,BufRead *.r setlocal ft=xml
 " associate *.upf with Tcl filetype
 au BufRead,BufNewFile *.upf set filetype=tcl
+ 
+ set expandtab
+ set tabstop=2
+ set shiftwidth=2
+ filetype indent on
+ set hlsearch
+ set number
+ set nomousehide
+ set mouse=a
 
-" Avoid swp files
-set noswapfile
+" Can be typed even faster than jj, and if you are already in
+"    normal mode, you (usually) don't accidentally move:
+:imap kj <Esc>
 
-" NERDTree to open NERDTree with Ctrl+n
-map <C-n> :NERDTreeToggle<CR>
+" Remove = and : from the filename characters
+set isfname-=:
+set isfname-==
 
-"To allow NERDTree to have line numbers
-let NERDTreeShowLineNumbers=1
-
-" Close vim if the only window left open is a NERDTree?
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"Window navigation
+nmap <C-h> <C-w>h
+nmap <C-j> <C-w>j
+nmap <C-k> <C-w>k
+nmap <C-l> <C-w>l
 
 
 :set guioptions-=T  "remove toolbar
