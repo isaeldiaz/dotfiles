@@ -1,5 +1,4 @@
 set nocompatible              " be iMproved, required
-filetype off                  " required
 
 if has('win32') || has ('win64')
   let plugPath='C:\Users\isdi\.config\nvim\plugged'
@@ -12,7 +11,7 @@ if has('win32') || has ('win64')
   tnoremap <Esc> <C-\><C-n>
 
 else
-  let plugPath='~\.config\nvim\plugged'
+  let plugPath='~/.vim/plugged'
 endif
 
 "call plug#begin('C:\Users\isdi\.config\nvim\plugged')
@@ -37,7 +36,6 @@ Plug 'plasticboy/vim-markdown'
 Plug 'flazz/vim-colorschemes'
 Plug 'scrooloose/nerdcommenter'
 call plug#end()
-filetype plugin indent on    " required
 
 set number relativenumber
 "
@@ -60,19 +58,9 @@ set background=dark
  "Show all hidden characters except spaces
  set listchars=tab:>-,trail:~,extends:>,precedes:<
  set list
- 
-
-"Change Color theme
-syntax enable
-if has('gui_running')
-    set background=dark
-    colorscheme wombat
-    "colorscheme solarized
-    call togglebg#map("<F5>")
-endif
 
 
- " Associate r files to XML syntax
+" Associate r files to XML syntax
  au BufNewFile,BufRead *.r setlocal ft=xml
 " associate *.upf with Tcl filetype
 au BufRead,BufNewFile *.upf set filetype=tcl
@@ -88,7 +76,7 @@ au BufRead,BufNewFile *.upf set filetype=tcl
 
 " Can be typed even faster than jj, and if you are already in
 "    normal mode, you (usually) don't accidentally move:
-:imap kj <Esc>
+imap kj <Esc>
 
 " Remove = and : from the filename characters
 set isfname-=:
@@ -101,5 +89,4 @@ nmap <C-k> <C-w>k
 nmap <C-l> <C-w>l
 
 
-:set guioptions-=T  "remove toolbar
-
+set guioptions-=T  "remove toolbar
