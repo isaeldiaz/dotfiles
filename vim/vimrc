@@ -7,12 +7,13 @@ if has('win32') || has ('win64')
   set shell=powershell shellquote=( shellpipe=\| shellredir=> shellxquote=
   set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
 
-  " Esc to leave terminal mode
-  tnoremap <Esc> <C-\><C-n>
 
 else
-  let plugPath='~/.vim/plugged'
+  let plugPath='~/.config/.vim/plugged'
 endif
+
+" Esc to leave terminal mode
+tnoremap <Esc> <C-\><C-n>
 
 "call plug#begin('C:\Users\isdi\.config\nvim\plugged')
 call plug#begin(plugPath)
@@ -28,11 +29,11 @@ Plug 'nachumk/systemverilog.vim'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'scrooloose/nerdtree'
 Plug 'triglav/vim-visual-increment'
+Plug 'flazz/vim-colorschemes'
 Plug 'tomtom/tlib_vim'
 Plug 'Yggdroot/indentLine'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'plasticboy/vim-markdown'
-Plug 'flazz/vim-colorschemes'
 Plug 'scrooloose/nerdcommenter'
 Plug 'PProvost/vim-ps1'
 call plug#end()
