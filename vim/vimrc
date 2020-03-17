@@ -25,7 +25,6 @@ Plug 'tpope/vim-rhubarb'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'godlygeek/tabular'
 Plug 'nachumk/systemverilog.vim'
-Plug 'icymind/NeoSolarized'
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'scrooloose/nerdtree'
 Plug 'triglav/vim-visual-increment'
@@ -51,8 +50,7 @@ map <F3> :NERDTreeFind %<CR>
 map <Leader>n :NERDTreeFocus<CR>
 
 
-" Enable solarized
-colorscheme NeoSolarized
+colorscheme wombat
 set background=dark
 
 
@@ -73,7 +71,6 @@ au BufRead,BufNewFile *.upf set filetype=tcl
  set hlsearch
  set number
  set nomousehide
- set mouse=a
 
 " Can be typed even faster than jj, and if you are already in
 "    normal mode, you (usually) don't accidentally move:
