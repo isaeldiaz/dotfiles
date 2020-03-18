@@ -34,7 +34,12 @@ Plug 'Yggdroot/indentLine'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'plasticboy/vim-markdown'
 Plug 'scrooloose/nerdcommenter'
-Plug 'PProvost/vim-ps1'
+
+" Windows only plugins
+if has('win32') || has ('win64')
+  Plug 'PProvost/vim-ps1'
+endif
+
 call plug#end()
 
 set number relativenumber
@@ -66,6 +71,7 @@ au BufRead,BufNewFile *.upf set filetype=tcl
  set expandtab
  set tabstop=2
  set shiftwidth=2
+ filetype indent on
  filetype indent on
  set hlsearch
  set number
