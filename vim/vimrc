@@ -12,8 +12,10 @@ else
   let plugPath='~/.config/.vim/plugged'
 endif
 
-" Esc to leave terminal mode
-tnoremap <Esc> <C-\><C-n>
+if has('nvim')
+  " Esc to leave terminal mode
+  tnoremap <Esc> <C-\><C-n>
+endif
 
 "call plug#begin('C:\Users\isdi\.config\nvim\plugged')
 call plug#begin(plugPath)
