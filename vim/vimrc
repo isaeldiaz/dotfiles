@@ -17,8 +17,10 @@ else
   let plugPath='~/.config/.vim/plugged'
 endif
 
-" Esc to leave terminal mode
-tnoremap <Esc> <C-\><C-n>
+if has('nvim')
+  " Esc to leave terminal mode
+  tnoremap <Esc> <C-\><C-n>
+endif
 
 call plug#begin(plugPath)
 
@@ -41,9 +43,10 @@ Plug 'plasticboy/vim-markdown'
 Plug 'scrooloose/nerdcommenter'
 Plug 'PSSTools/vim-pss-plugin'
 Plug 'aklt/plantuml-syntax'
+
 " Windows only plugins
 if has('win32') || has ('win64')
-Plug 'PProvost/vim-ps1'
+  Plug 'PProvost/vim-ps1'
 endif
 
 call plug#end()
@@ -110,6 +113,7 @@ au BufRead,BufNewFile *.upf set filetype=tcl
  set expandtab
  set tabstop=2
  set shiftwidth=2
+ filetype indent on
  filetype indent on
  set hlsearch
  set number
