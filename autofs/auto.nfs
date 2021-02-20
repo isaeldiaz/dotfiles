@@ -1,0 +1,4 @@
+
+/temp       -fstype=cifs,rw,credentials=/home/NORDIC_USER/.smbcredentials,sec=ntlmssp,iocharset=utf8,uid=NORDIC_UID,vers=2.0  ://hizz/temp
+
+
