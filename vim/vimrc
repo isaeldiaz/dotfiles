@@ -4,10 +4,15 @@ if has('win32') || has ('win64')
   let plugPath='C:\Users\isdi\.config\nvim\plugged'
   
   "To use powershell (on Windows): >
-  set shell=powershell shellquote=( shellpipe=\| shellredir=> shellxquote=
-  set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
+  set shell=powershell.exe
+  set shellxquote=
+  let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command '
+  let &shellquote   = ''
+  let &shellpipe    = '| Out-File -Encoding UTF8 %s'
+  let &shellredir   = '| Out-File -Encoding UTF8 %s'
 
-
+  " Copy automatically to clipboard
+  set clipboard+=unnamedplus
 else
   let plugPath='~/.config/.vim/plugged'
 endif
@@ -15,7 +20,6 @@ endif
 " Esc to leave terminal mode
 tnoremap <Esc> <C-\><C-n>
 
-"call plug#begin('C:\Users\isdi\.config\nvim\plugged')
 call plug#begin(plugPath)
 
 Plug 'tpope/vim-fugitive'
@@ -35,14 +39,52 @@ Plug 'Yggdroot/indentLine'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'plasticboy/vim-markdown'
 Plug 'scrooloose/nerdcommenter'
+Plug 'PSSTools/vim-pss-plugin'
+Plug 'aklt/plantuml-syntax'
+" Windows only plugins
+if has('win32') || has ('win64')
 Plug 'PProvost/vim-ps1'
+endif
+
 call plug#end()
+
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
 
 set number relativenumber
 "
 " Map the leader key to SPACE
 let mapleader="\<SPACE>"
 
+" ----------------------------------
+" Font Adjust sections
+if has('win32') || has ('win64')
+  let s:fonttype = 'Consolas:h'
+else
+  let s:fonttype = 'Monospace:h'
+endif
+
+let s:fontsize = 12
+function! AdjustFontSize(amount)
+  let s:fontsize = s:fontsize+a:amount
+  :execute "GuiFont! " . s:fonttype . s:fontsize
+endfunction
+
+noremap <C-ScrollWheelUp> :call AdjustFontSize(1)<CR>
+noremap <C-ScrollWheelDown> :call AdjustFontSize(-1)<CR>
+inoremap <C-ScrollWheelUp> <Esc>:call AdjustFontSize(1)<CR>a
+inoremap <C-ScrollWheelDown> <Esc>:call AdjustFontSize(-1)<CR>a
+" ----------------------------------
 
 " NERDTree configuation 
 let NERDTreeShowLineNumbers=1
