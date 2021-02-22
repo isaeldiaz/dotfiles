@@ -52,6 +52,10 @@ endif
 
 call plug#end()
 
+" ==================== vim-markdown ============
+autocmd FileType markdown normal zR
+let g:vim_markdown_conceal = 0
+
 " ==================== Easy Motion ============
 " <Leader>f{char} to move to {char}
 map  <Leader>f <Plug>(easymotion-bd-f)
@@ -125,7 +129,6 @@ set background=dark
 " associate *.upf with Tcl filetype
 au BufRead,BufNewFile *.upf set filetype=tcl
  
- set expandtab
  set tabstop=2
  set shiftwidth=2
  filetype indent on
@@ -134,9 +137,6 @@ au BufRead,BufNewFile *.upf set filetype=tcl
  set number
  set nomousehide
 
-" Can be typed even faster than jj, and if you are already in
-"    normal mode, you (usually) don't accidentally move:
-imap kj <Esc>
 
 " Remove = and : from the filename characters
 set isfname-=:
