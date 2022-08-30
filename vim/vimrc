@@ -22,6 +22,7 @@ if has('nvim')
   tnoremap <Esc> <C-\><C-n>
 endif
 
+" vim-plug can be installed from https://github.com/junegunn/vim-plug
 call plug#begin(plugPath)
 
 Plug 'tpope/vim-fugitive'

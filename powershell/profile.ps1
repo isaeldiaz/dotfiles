@@ -1,7 +1,13 @@
+Import-Module PSReadLine
+Import-Module PSFzf
 
 Set-Location $HOME
 
 Set-PSReadlineOption -EditMode vi
+
+#Fuzzy finder PSReadline integration
+Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+
 
 # Dracula readline configuration. Requires version 2.0, if you have 1.2 convert to `Set-PSReadlineOption -TokenType`
 Set-PSReadlineOption -Color @{
