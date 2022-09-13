@@ -1,0 +1,20 @@
+# System service to rebooth after power failure, 
+# place at following location /etc/systemd/system/vboxweb.service
+# Modify $VIRTUAL_USER with the correct user
+# then, the service is started with
+# $> systemctl enable --now vboxweb.service
+[Unit]
+Description=Virtual Box Web Service
+After=network.target
+
+
+[Service]
+Type=forking
+User=$VIRTUAL_USER
+Group=vboxusers
+ExecStart=/usr/bin/vboxwebsrv --pidfile /home/$VIRTUAL_USER/vboxweb.pid --host=0.0.0.0 --background
+PIDFile=/home/$VIRTUAL_USER/vboxweb.pid
+
+
+[Install]
+WantedBy=multi-user.target
