@@ -1,9 +1,0 @@
-
-# load zgen
-
-# start zgen
-if [ -f ${HOME}/dotfiles/zsh/zgen_setup.zsh ]; then
-  source ${HOME}/dotfiles/zsh/zgen_setup.zsh
-fi
-
-
