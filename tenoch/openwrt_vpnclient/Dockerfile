@@ -10,7 +10,12 @@ RUN opkg list-upgradable | awk '{print $1}' | xargs opkg upgrade || true
 RUN /etc/init.d/openvpn enable
 
 # Copy NordVPN Conf files
+ARG VPN_USERNAME
+ARG VPN_PASSWORD
 COPY ./conf/* /etc/openvpn/
+RUN cd /etc/openvpn && \
+    echo $VPN_USERNAME >  secret && \
+    echo $VPN_PASSWORD >> secret
 
 # Create a new network interface.
 RUN uci set network.nordvpntun=interface && \
