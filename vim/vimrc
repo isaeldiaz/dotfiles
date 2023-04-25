@@ -1,4 +1,5 @@
 set nocompatible              " be iMproved, required
+set expandtab                 " To make tabs into spaces
 
 if has('win32') || has ('win64')
   let plugPath='C:\Users\isdi\.config\nvim\plugged'
@@ -46,6 +47,7 @@ Plug 'PSSTools/vim-pss-plugin'
 Plug 'aklt/plantuml-syntax'
 Plug 'easymotion/vim-easymotion'
 Plug 'juneedahamed/svnj.vim'
+Plug 'andymass/vim-matchup'
 
 " Windows only plugins
 if has('win32') || has ('win64')
