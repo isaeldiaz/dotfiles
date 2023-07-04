@@ -48,7 +48,7 @@ Plug 'aklt/plantuml-syntax'
 Plug 'easymotion/vim-easymotion'
 Plug 'juneedahamed/svnj.vim'
 Plug 'andymass/vim-matchup'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'christoomey/vim-tmux-navigator'
 
 
 " Windows only plugins
