@@ -1,6 +1,59 @@
 set nocompatible              " be iMproved, required
 set expandtab                 " To make tabs into spaces
 
+set tabstop=2
+set shiftwidth=2
+filetype indent on
+set hlsearch
+set number
+set nomousehide
+
+set number relativenumber
+"
+" Map the leader key to SPACE
+let mapleader="\<SPACE>"
+
+set guioptions-=T  "remove toolbar
+
+
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" Associate r files to XML syntax
+ au BufNewFile,BufRead *.r setlocal ft=xml
+" associate *.upf with Tcl filetype
+au BufRead,BufNewFile *.upf set filetype=tcl
+
+" ----------------------------------
+" Font Adjust sections
+if has('win32') || has ('win64')
+  let s:fonttype = 'Consolas:h'
+else
+  let s:fonttype = 'Monospace:h'
+endif
+
+let s:fontsize = 12
+function! AdjustFontSize(amount)
+  let s:fontsize = s:fontsize+a:amount
+  :execute "GuiFont! " . s:fonttype . s:fontsize
+endfunction
+
+noremap <C-ScrollWheelUp> :call AdjustFontSize(1)<CR>
+noremap <C-ScrollWheelDown> :call AdjustFontSize(-1)<CR>
+inoremap <C-ScrollWheelUp> <Esc>:call AdjustFontSize(1)<CR>a
+inoremap <C-ScrollWheelDown> <Esc>:call AdjustFontSize(-1)<CR>a
+" ----------------------------------
+
 if has('win32') || has ('win64')
   let plugPath='C:\Users\isdi\.config\nvim\plugged'
   
@@ -26,29 +79,39 @@ endif
 " vim-plug can be installed from https://github.com/junegunn/vim-plug
 call plug#begin(plugPath)
 
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-rhubarb'
-Plug 'jlanzarotta/bufexplorer'
-Plug 'godlygeek/tabular'
-Plug 'nachumk/systemverilog.vim'
-Plug 'chrisbra/vim-diff-enhanced'
-Plug 'scrooloose/nerdtree'
-Plug 'triglav/vim-visual-increment'
+" Look and feel
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
+
+" git
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-git'
+
+" Navigation
+Plug 'easymotion/vim-easymotion'
+Plug 'scrooloose/nerdtree'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'jlanzarotta/bufexplorer'
+
+" Languages
+Plug 'plasticboy/vim-markdown'
+Plug 'nachumk/systemverilog.vim'
+Plug 'PSSTools/vim-pss-plugin'
+"
+" Convinience 
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdcommenter'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-rhubarb'
+Plug 'chrisbra/vim-diff-enhanced'
+Plug 'triglav/vim-visual-increment'
 Plug 'tomtom/tlib_vim'
 Plug 'Yggdroot/indentLine'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
-Plug 'plasticboy/vim-markdown'
-Plug 'scrooloose/nerdcommenter'
-Plug 'PSSTools/vim-pss-plugin'
-Plug 'aklt/plantuml-syntax'
-Plug 'easymotion/vim-easymotion'
 Plug 'juneedahamed/svnj.vim'
 Plug 'andymass/vim-matchup'
-Plug 'christoomey/vim-tmux-navigator'
 
 
 " Windows only plugins
@@ -58,101 +121,25 @@ endif
 
 call plug#end()
 
-" ==================== vim-markdown ============
-autocmd FileType markdown normal zR
-let g:vim_markdown_conceal = 0
-
-" ==================== Easy Motion ============
-" <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-
-" s{char}{char} to move to {char}{char}
-nmap <Leader>s <Plug>(easymotion-overwin-f2)
-
-" Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-
-" Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-" ==========================================
-
-
-" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
-set number relativenumber
-"
-" Map the leader key to SPACE
-let mapleader="\<SPACE>"
-
-" ----------------------------------
-" Font Adjust sections
-if has('win32') || has ('win64')
-  let s:fonttype = 'Consolas:h'
-else
-  let s:fonttype = 'Monospace:h'
-endif
-
-let s:fontsize = 12
-function! AdjustFontSize(amount)
-  let s:fontsize = s:fontsize+a:amount
-  :execute "GuiFont! " . s:fonttype . s:fontsize
-endfunction
-
-noremap <C-ScrollWheelUp> :call AdjustFontSize(1)<CR>
-noremap <C-ScrollWheelDown> :call AdjustFontSize(-1)<CR>
-inoremap <C-ScrollWheelUp> <Esc>:call AdjustFontSize(1)<CR>a
-inoremap <C-ScrollWheelDown> <Esc>:call AdjustFontSize(-1)<CR>a
-" ----------------------------------
-
-" NERDTree configuation 
-let NERDTreeShowLineNumbers=1
-map <F2> :NERDTreeToggle<CR>
-map <F3> :NERDTreeFind %<CR>
-map <Leader>n :NERDTreeFocus<CR>
-
-
+" ===========  Plug 'flazz/vim-colorschemes'
 colorscheme wombat
 set background=dark
 
+" ========== Plug 'vim-airline/vim-airline'
+let g:airline_theme='distinguished'
 
- "Show all hidden characters except spaces
- set listchars=tab:>-,trail:~,extends:>,precedes:<
- set list
+" ========== Plug 'plasticboy/vim-markdown'
+autocmd FileType markdown normal zR
+let g:vim_markdown_conceal = 0
 
+" ========== Plug 'easymotion/vim-easymotion'
+map  <Leader>w <Plug>(easymotion-bd-w)
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>s <Plug>(easymotion-overwin-f2)
 
-" Associate r files to XML syntax
- au BufNewFile,BufRead *.r setlocal ft=xml
-" associate *.upf with Tcl filetype
-au BufRead,BufNewFile *.upf set filetype=tcl
- 
- set tabstop=2
- set shiftwidth=2
- filetype indent on
- filetype indent on
- set hlsearch
- set number
- set nomousehide
+" ============  Plug 'scrooloose/nerdtree'
+map <F2> :NERDTreeToggle<CR>
+map <F3> :NERDTreeFind %<CR>
+map <Leader>n :NERDTreeFocus<CR>
+let NERDTreeShowLineNumbers=1
 
-
-" Remove = and : from the filename characters
-set isfname-=:
-set isfname-==
-
-"Window navigation
-nmap <C-h> <C-w>h
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
-
-
-set guioptions-=T  "remove toolbar
