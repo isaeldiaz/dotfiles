@@ -19,7 +19,6 @@ endif
 call plug#begin(plugPath)
 
 " Look and feel
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'vim-airline/vim-airline'
@@ -40,12 +39,11 @@ Plug 'jlanzarotta/bufexplorer'
 " Languages
 Plug 'plasticboy/vim-markdown'
 Plug 'nachumk/systemverilog.vim'
-Plug 'PSSTools/vim-pss-plugin'
 "
 " Convinience 
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
-Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rhubarb'
 Plug 'chrisbra/vim-diff-enhanced'
