@@ -17,6 +17,11 @@ done
 DOTFILES_DIR="$(realpath "${BASH_SOURCE[0]}" |xargs dirname)"
 
 ########### ZSH ##################
+=======
+if [ ! -d "$HOME/bin" ]; then
+  mkdir "$HOME/bin"
+fi
+
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
