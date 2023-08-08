@@ -27,6 +27,7 @@ Plug 'flazz/vim-colorschemes'
 
 " Version control
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'juneedahamed/svnj.vim'
 
 " Navigation
