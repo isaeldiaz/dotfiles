@@ -12,7 +12,7 @@ def parse_srt_file(srt_filename):
     matches = re.findall(subtitle_pattern, srt_content)
     
     subtitle_numbers, start_times = zip(*matches)
-    return np.array(start_times)
+    return start_times
 
 # Function to convert time strings to seconds
 def time_to_seconds(time_str):
@@ -37,18 +37,13 @@ def main():
     subtitle_times = parse_srt_file(srt_filename)
     provided_timings = read_csv_file(csv_filename)
 
-    subtitle_numbers = np.arange(1, len(subtitle_times) + 1)
-    subtitle_times = np.array([time_to_seconds(t) for t in subtitle_times])
-
-    differences = np.zeros(len(subtitle_numbers))
+    differences = [0]*len(provided_timings)
 
     for subtitle_number, timing in provided_timings.items():
-        if subtitle_number <= len(subtitle_times):
-            srt_timing = subtitle_times[subtitle_number - 1]
-            differences[subtitle_number - 1] = srt_timing - timing
+        differences.append(time_to_seconds(subtitle_times[subtitle_number]) - timing)
     
     # Plot the differences
-    plt.plot(subtitle_numbers, differences, marker='o', linestyle='-')
+    plt.plot(differences, marker='o', linestyle='-')
     plt.xlabel('Subtitle Number')
     plt.ylabel('Time Difference (seconds)')
     plt.title('Time Difference Between SRT and Provided Timings')
