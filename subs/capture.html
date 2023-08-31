@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Timer and Capture</title>
+</head>
+<body>
+    <h1>Timer and Capture</h1>
+    <p>Timer: <span id="timer">0</span></p>
+    <p>Captures: <span id="captures"></span></p>
+    <label for="restart-time">Restart time:</label>
+    <input type="text" id="restart-time" value="00:00:00">
+    <br>
+    <label for="restart-capture">Restart capture:</label>
+    <input type="number" id="restart-capture" value="0">
+    <br>
+    <button id="restart">Restart</button>
+    <button id="capture">Capture</button>
+
+    <script>
+        let startTime;
+        let captures = [];
+        let timerInterval;
+        let captureOffset = 0;
+
+        function formatTime(totalSeconds) {
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = Math.floor(totalSeconds % 60);
+            return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+        }
+
+        document.getElementById("restart").addEventListener("click", () => {
+            const restartTime = document.getElementById("restart-time").value;
+            const restartCapture = parseInt(document.getElementById("restart-capture").value);
+            if (restartCapture > 0) {
+                captureOffset = restartCapture - 1;
+            } else {
+                captureOffset = 0;
+            }
+            const timeParts = restartTime.split(":").map(part => parseInt(part));
+            const totalSeconds = timeParts[0] * 3600 + timeParts[1] * 60 + timeParts[2];
+            startTime = new Date(new Date().getTime() - totalSeconds * 1000);
+            captures = [];
+            document.getElementById("captures").textContent = "";
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                const currentTime = new Date();
+                const timeElapsed = (currentTime - startTime) / 1000;
+                document.getElementById("timer").textContent = formatTime(timeElapsed);
+            }, 100);
+        });
+
+        document.getElementById("capture").addEventListener("click", () => {
+            const currentTime = new Date();
+            const timeElapsed = (currentTime - startTime) / 1000;
+            captures.push(timeElapsed);
+            const captureText = captures.map((capture, index) => `Capture ${index + 1 + captureOffset}: ${formatTime(capture)}`).join(", ");
+            document.getElementById("captures").textContent = captureText;
+        });
+    </script>
+</body>
+</html>
