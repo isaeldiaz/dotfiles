@@ -37,13 +37,18 @@ def main():
     subtitle_times = parse_srt_file(srt_filename)
     provided_timings = read_csv_file(csv_filename)
 
-    differences = [0]*len(provided_timings)
+    differences = []
 
     for subtitle_number, timing in provided_timings.items():
-        differences.append(time_to_seconds(subtitle_times[subtitle_number]) - timing)
+        est_diff = time_to_seconds(subtitle_times[subtitle_number]) - timing
+        differences.append(est_diff)
     
+
+    delta_diff = [differences[i] - differences[i-1] for i in range(1, len(differences))]
+    diff_timing=list(provided_timings.keys())[1:]
+
     # Plot the differences
-    plt.plot(differences, marker='o', linestyle='-')
+    plt.plot(diff_timing, delta_diff, marker='o', linestyle='-')
     plt.xlabel('Subtitle Number')
     plt.ylabel('Time Difference (seconds)')
     plt.title('Time Difference Between SRT and Provided Timings')
