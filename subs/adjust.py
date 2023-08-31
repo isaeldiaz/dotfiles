@@ -45,14 +45,20 @@ def main():
     
 
     delta_diff = [differences[i] - differences[i-1] for i in range(1, len(differences))]
-    diff_timing=list(provided_timings.keys())[1:]
+    timing=list(provided_timings.keys())
+    diff_timing=timing[1:]
 
     # Plot the differences
-    plt.plot(diff_timing, delta_diff, marker='o', linestyle='-')
-    plt.xlabel('Subtitle Number')
-    plt.ylabel('Time Difference (seconds)')
-    plt.title('Time Difference Between SRT and Provided Timings')
-    plt.grid(True)
+    fig, axs = plt.subplots(2, 1)
+
+    axs[0].plot(diff_timing, delta_diff, marker='o', linestyle='-')
+    axs[0].grid(True)
+    axs[0].set_title("Timing difference between samples")
+
+    axs[1].plot(timing, differences, marker='x', linestyle='-')
+    axs[1].grid(True)
+    axs[1].set_title("Time error at sample places")
+
     plt.savefig('timeline.png')
 
 if __name__ == "__main__":
