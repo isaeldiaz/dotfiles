@@ -1,6 +1,7 @@
 import re
 import csv
 import numpy as np
+from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 
 # Function to parse SRT file and extract subtitle start times
@@ -42,11 +43,27 @@ def main():
     for subtitle_number, timing in provided_timings.items():
         est_diff = time_to_seconds(subtitle_times[subtitle_number]) - timing
         differences.append(est_diff)
-    
-
+   
     delta_diff = [differences[i] - differences[i-1] for i in range(1, len(differences))]
-    timing=list(provided_timings.keys())
+    timing=list(provided_timings.values())
     diff_timing=timing[1:]
+
+    # Create the interpolation function
+    f = interp1d(timing, differences)
+    new_x = np.arange(time_to_seconds(subtitle_times[-1]))
+    print(timing)
+    print(len(new_x))
+    est_error = f(new_x)
+    # # Define the known data points
+    # x = [3, 5, 10, 56, 345]
+    # y = [1, 2, 3, 4, 5]
+    # # Create the interpolation function
+    # f = interp1d(x, y)
+    # # Define the new x values
+    # new_x = np.arange(1000)
+    # # Interpolate the y values
+    # new_y = f(new_x)
+
 
     # Plot the differences
     fig, axs = plt.subplots(2, 1)
