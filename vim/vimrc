@@ -50,6 +50,9 @@ Plug 'chrisbra/vim-diff-enhanced'
 Plug 'triglav/vim-visual-increment'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'andymass/vim-matchup'
+Plug 'statox/vim-compare-lines'
+Plug 'AndrewRadev/linediff.vim'
+
 
 " Windows only plugins
 if has('win32') || has ('win64')
