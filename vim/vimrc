@@ -10,7 +10,7 @@ tnoremap <Esc> <C-\><C-n>
 
 " ===================== Plugged configuration =========================
 if has('win32') || has ('win64')
-  let plugPath='C:\Users\isdi\.config\nvim\plugged'
+  let plugPath=expand('$USERPROFILE\.config\nvim\plugged')
 else
   let plugPath='~/.config/.vim/plugged'
 endif
