@@ -50,8 +50,8 @@ elif [[ "$COMMAND" == "unpack" ]]; then
     pushd /tmp
     tar -xvf "$TAR_FILEPATH"
     cd dotfiles
-    rsync -av plugged "$PLUGIN_DIR"
-    rsync -av dotfiles "$DOTFILES_DIR"
+    rsync -av ./plugged/ "$PLUGIN_DIR/"
+    rsync -av ./dotfiles/ "$DOTFILES_DIR/"
 
 
     cd ..
