@@ -7,13 +7,11 @@ if [[ "$COMMAND" == "pack" ]]; then
   HOME_DIR="$HOME"
   DOTFILES_DIR="$HOME/dotfiles"
   PLUGIN_DIR="$HOME_DIR/.config/.vim/plugged"
-  OHMYZSH_DIR="$HOME/.oh-my-zsh"
 
   cd /tmp
   mkdir dotfiles; cd dotfiles
   cp -R $PLUGIN_DIR .
   cp -R $DOTFILES_DIR .
-  cp -R $OHMYZSH_DIR .
   date > "sync_date.txt"
   find dotfiles -name ".git" | xargs rm -Rf
   cd ..
@@ -44,7 +42,6 @@ elif [[ "$COMMAND" == "unpack" ]]; then
         HOME_DIR="$HOME"
         PLUGIN_DIR="$HOME_DIR/.config/.vim/plugged"
         DOTFILES_DIR="$HOME_DIR/dotfiles"
-        OHMYZSH_DIR="$HOME/.oh-my-zsh"
         TAR_FILEPATH="$HOME_DIR/dotfiles.tar"
      fi
   fi
@@ -56,7 +53,6 @@ elif [[ "$COMMAND" == "unpack" ]]; then
     rsync -av plugged "$PLUGIN_DIR"
     rsync -av dotfiles "$DOTFILES_DIR"
 
-    [[ -v OHMYZSH_DIR ]] && rsync -av .oh-my-zsh $OHMYZSH_DIR
 
     cd ..
     rm -Rf dotfiles
