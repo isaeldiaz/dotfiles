@@ -38,20 +38,20 @@ elif [[ "$COMMAND" == "unpack" ]]; then
         HOME_DIR="/mnt/c/Users/$WIN_USER"
         PLUGIN_DIR="$HOME_DIR/.config/nvim/plugged"
         DOTFILES_DIR="$HOME_DIR/dotfiles"
+        TAR_FILEPATH="$HOME_DIR/Downloads/dotfiles.tar"
      else 
         #All linux distros
         HOME_DIR="$HOME"
         PLUGIN_DIR="$HOME_DIR/.config/.vim/plugged"
         DOTFILES_DIR="$HOME_DIR/dotfiles"
         OHMYZSH_DIR="$HOME/.oh-my-zsh"
+        TAR_FILEPATH="$HOME_DIR/dotfiles.tar"
      fi
   fi
 
-  ls $HOME_DIR/scratch
-
-  if [[ -f "$HOME_DIR/dotfiles.tar" ]]; then
+  if [[ -f "$TAR_FILEPATH" ]]; then
     pushd /tmp
-    tar -xvf "$HOME_DIR/dotfiles.tar" 
+    tar -xvf "$TAR_FILEPATH"
     cd dotfiles
     rsync -av plugged "$PLUGIN_DIR"
     rsync -av dotfiles "$DOTFILES_DIR"
@@ -63,7 +63,7 @@ elif [[ "$COMMAND" == "unpack" ]]; then
     popd
     echo "Unpacked completed"
   else
-    echo "There is no tar file $HOME_DIR/dotfiles.tar"
+    echo "There is no tar file $TAR_FILEPATH"
   fi
 
 
