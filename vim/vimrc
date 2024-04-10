@@ -18,9 +18,15 @@ endif
 " vim-plug can be installed from https://github.com/junegunn/vim-plug
 call plug#begin(plugPath)
 
+if has('nvim')
+  " Look and feel
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/popup.nvim'
+  " Navigation
+  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
+endif
+
 " Look and feel
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-lua/popup.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
@@ -33,7 +39,6 @@ Plug 'juneedahamed/svnj.vim'
 " Navigation
 Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/nerdtree'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' }
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'jlanzarotta/bufexplorer'
 
@@ -59,8 +64,9 @@ if has('win32') || has ('win64')
   Plug 'PProvost/vim-ps1'
 endif
 
-" This plugin must be instanciated last, since depends on all the previous
-" plugins
+" This plugins must be instanciated last, since depends on all the previous
+" Personal configurations
 Plug 'isaeldiaz/brody-vim-config'
+
 call plug#end()
 
