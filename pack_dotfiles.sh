@@ -36,30 +36,22 @@ elif [[ "$COMMAND" == "unpack" ]]; then
         HOME_DIR="/mnt/c/Users/$WIN_USER"
         PLUGIN_DIR="$HOME_DIR/.config/nvim/plugged"
         DOTFILES_DIR="$HOME_DIR/dotfiles"
-        TAR_FILEPATH="$HOME_DIR/Downloads/dotfiles.tar"
      else 
         #All linux distros
         HOME_DIR="$HOME"
         PLUGIN_DIR="$HOME_DIR/.config/.vim/plugged"
         DOTFILES_DIR="$HOME_DIR/dotfiles"
-        TAR_FILEPATH="$HOME_DIR/dotfiles.tar"
      fi
   fi
 
-  if [[ -f "$TAR_FILEPATH" ]]; then
-    pushd /tmp
-    tar -xvf "$TAR_FILEPATH"
-    cd dotfiles
-    rsync -av ./plugged/ "$PLUGIN_DIR/"
-    rsync -av ./dotfiles/ "$DOTFILES_DIR/"
+  CURRENT_DIR=$(basename "$PWD")
+  if [[ "$CURRENT_DIR" == "dotfiles" && "$PWD" !=  "$DOTFILES_DIR" ]]; then
+    rsync -av ../plugged/ "$PLUGIN_DIR/"
+    rsync -av ../dotfiles/ "$DOTFILES_DIR/"
 
-
-    cd ..
-    rm -Rf dotfiles
-    popd
     echo "Unpacked completed"
   else
-    echo "There is no tar file $TAR_FILEPATH"
+    echo "ERROR - Cannot unpack from current location"
   fi
 
 
