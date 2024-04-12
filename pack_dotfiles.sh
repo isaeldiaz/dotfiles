@@ -8,6 +8,7 @@ if [[ "$COMMAND" == "pack" ]]; then
   DOTFILES_DIR="$HOME/dotfiles"
   PLUGIN_DIR="$HOME_DIR/.config/.vim/plugged"
 
+  nvim -c "PlugUpdate"
   cd /tmp
   mkdir dotfiles; cd dotfiles
   cp -R $PLUGIN_DIR .
