@@ -55,8 +55,8 @@ Plug 'chrisbra/vim-diff-enhanced'
 Plug 'triglav/vim-visual-increment'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'andymass/vim-matchup'
-Plug 'statox/vim-compare-lines'
 Plug 'AndrewRadev/linediff.vim'
+Plug 'inkarkat/vim-mark'
 
 
 " Windows only plugins
@@ -66,7 +66,7 @@ endif
 
 " This plugins must be instanciated last, since depends on all the previous
 " Personal configurations
-Plug 'isaeldiaz/brody-vim-config'
+Plug '~/dotfiles/vim/brody-vim-config'
 
 call plug#end()
 
