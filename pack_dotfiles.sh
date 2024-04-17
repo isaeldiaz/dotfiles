@@ -7,12 +7,14 @@ if [[ "$COMMAND" == "pack" ]]; then
   HOME_DIR="$HOME"
   DOTFILES_DIR="$HOME/dotfiles"
   PLUGIN_DIR="$HOME_DIR/.config/.vim/plugged"
+  TMUX_DIR="$HOME_DIR/.tmux"
 
   nvim -c "PlugUpdate"
   cd /tmp
   mkdir dotfiles; cd dotfiles
   cp -R $PLUGIN_DIR .
   cp -R $DOTFILES_DIR .
+  cp -R $TMUX_DIR .
   date > "sync_date.txt"
   find dotfiles -name ".git" | xargs rm -Rf
   cd ..
@@ -42,6 +44,7 @@ elif [[ "$COMMAND" == "unpack" ]]; then
         HOME_DIR="$HOME"
         PLUGIN_DIR="$HOME_DIR/.config/.vim/plugged"
         DOTFILES_DIR="$HOME_DIR/dotfiles"
+        TMUX_DIR="$HOME_DIR/.tmux"
      fi
   fi
 

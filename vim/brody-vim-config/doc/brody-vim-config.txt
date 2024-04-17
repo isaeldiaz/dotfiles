@@ -1,0 +1,230 @@
+*brody-vim-config.txt*  My custom key bindings
+
+This is a help file for my custom key bindings. It explains what each binding does and how to use it.
+
+<F10>      Opens this help window
+
+==============================================================================
+Plug 'inkarkat/vim-mark'
+<Leader>m               Mark the word under the cursor
+<Leader>n               Clear mark
+{N}<Leader>m            With {N}, mark the word under the cursor with the
+                        named highlight group {N}.
+:Mark                   Disable all marks, similar to :nohlsearch
+:MarkClear              Clear all marks. In contrast to disabling marks, the
+                        actual mark information is cleared,
+
+See |mark.txt| for more details
+==============================================================================
+Rigrep
+
+:grep -w foo (equivalent to :grep '\bfoo\b')    Search for the exact word foo (not foobar)
+:grep foo -t j                                  Search for foo in JavaScript files
+:grep foo -g '*.js                              Search for foo in files matching a glob
+
+Works with any terminal command:
+:grep foo ``git diff --name-only master``        Search in files modified between git revisions
+:grep foo ``git ls-files --modified``          Search in files modified
+
+==============================================================================
+Plug 'AndrewRadev/linediff.vim'
+
+Diff sections from same file or different files
+
+:[range]Linediff        Main plugin command, If executed
+                        first time - Adds selected text to the comparison buf
+                        second time - Compares selected text with the first
+                        third time - a new diff-ine is initiated
+
+:LinediffReset[!]       Resets the diff process
+
+For more than two sections to be diff look the following example:
+Example:
+    :1,2Linediff
+    :3,4LinediffAdd
+    :5,6LinediffAdd
+    :LinediffShow
+
+See |linediff.txt| for more details
+==============================================================================
+Mouse support
+<C-l>    Toggle mouse support
+==============================================================================
+*Quickfix*
+
+:copen " Open the quickfix window
+:ccl   " Close it
+:cw    " Open it if there are "errors", close it otherwise (some people prefer this)
+:cn    " Go to the next error in the window
+:cp    " Go to the previous error in the window
+:cnf   " Go to the first error in the next file
+:.cc   " Go to error under cursor (if cursor is in quickfix window)
+
+See |quickfix.txt| for more details
+==============================================================================
+Plug 'easymotion/vim-easymotion'
+
+These are the bindings for the easymotion plugin, which provides fast
+motion within a line or across the screen.
+
+<Leader>w             Move to word
+<Leader>f{char}       Move to {char}
+<Leader>/{char}       Search {char}
+<Leader>s{char}{char} Move to {char}{char}
+
+See |easymotion.txt| for more details.
+
+==============================================================================
+Plug 'scrooloose/nerdtree'
+
+These are the bindings for the nerdtree plugin, which provides a tree
+explorer for the filesystem.
+
+<F2>      Toggle On/Off
+<F3>      Open in current file
+<Leader>n Move Cursor to NERDTree
+
+See |nerdtree.txt| for more details.
+
+==============================================================================
+Plug 'christoomey/vim-tmux-navigator'
+
+These are the bindings for the tmux-navigator plugin, which allows seamless
+navigation between vim and tmux splits using a consistent set of hotkeys.
+
+<ctrl-h> => Left
+<ctrl-j> => Down
+<ctrl-k> => Up
+<ctrl-l> => Right
+<ctrl-\> => Previous split
+
+See |tmux-navigator.txt| for more details.
+
+==============================================================================
+Plug 'jlanzarotta/bufexplorer'
+
+These are the bindings for the bufexplorer plugin, which provides an easy
+and convenient way to list and switch between buffers.
+
+<Leader>be :normal open
+<Leader>bt :toggle open / close
+<Leader>bs :force horizontal split open
+<Leader>bv :force vertical split open
+
+See |bufexplorer.txt| for more details.
+
+==============================================================================
+Plug 'tpope/vim-surround'
+
+These are the bindings for the surround plugin, which provides mappings to
+easily delete, change and add surroundings in pairs.
+
+ delimiter can be     : ' " <tag delimiter> { [
+ cs{sr1}{sr2}         : Change sorround delimiter1 to delimiter2
+ cst{sr2}             : Change sorround tag to delimiter2
+ ds{sr}               : Delete delimiter
+ dst                  : Delete sorround tag
+ Text object can be   : a-word (aw), inner-word (iw), etc
+ ys{text-object}{sr1} : Yank surround delimiter in text-object tp sr1
+ yss{sr1}             : Yanks sorround into the entire line
+ S{sr1}               : In VISUAL Mode it will insert delimiters before and
+                        after the given lines Very useful for XML and HTML
+
+ See |surround.txt| for more details.
+
+==============================================================================
+Plug 'nvim-telescope/telescope.nvim'
+
+These are the bindings for the telescope plugin, which provides mappings to
+ fuzzy finder
+
+<leader>tf : Telescope find_files
+<leader>tg : Telescope live_grep
+<leader>tb : Telescope buffers
+<leader>th : Telescope help_tags
+
+ See |telescope.txt| for more details.
+
+==============================================================================
+Plug 'scrooloose/nerdcommenter'
+
+[count]<leader>cc       : Comment out the current line or text selected in visual mode.
+[count]<leader>c<space> : Toggles the comment state of the selected line(s).
+                          If the topmost selected line is commented, all selected lines
+                          are uncommented and vice versa.
+[count]<leader>cu       : Uncomments the selected line(s).
+
+See |nerdcommenter.txt| for more details.
+
+==============================================================================
+Plug 'junegunn/vim-easy-align'
+
+In normal mode:
+ ga  : Enter Easy align interactive, e.g. ga[ip][=] will align paragragh to
+       '=' delimiter.
+
+In Visual mode:
+ [text-object]ga [align-delimiter] : Will allign the text object at the given
+                                     delimiter, e.g. [ip]ga[=] -> Align inner 
+                                     paragraph to '=' delimiter.
+
+In EasyAlign interactive mode 
+<c-x>      -> to enter regex expression
+<space>    -> around 1st whitespaces
+2<space>   -> around 2nd whitespaces
+-<space>   -> around the last whitespaces
+-2<space>  -> around the 2nd to last whitespaces
+:          -> around 1st colon (key:  value)
+<right>:   -> around 1st colon (key : value)
+=          -> around 1st operators with =
+3=         -> around 3rd operators with =
+*=         -> around all operators with =
+**=        -> left-right alternating around =
+<enter>=   -> right alignment around 1st =
+<enter>**= -> right-left alternating around =
+
+
+See |*easy-align.txt|* for more details.
+
+==============================================================================
+Plug 'triglav/vim-visual-increment'
+Create increasing sequence of numbers via visual mode
+
+In Visual mode
+[number]<C-a> : Increment all the indexes from the first one selected by
+                number, default is number=1
+
+set nrformats=[format]  : The format can be bin, alpha, octal, hex, hex 
+                          must start with 0x and octal with 0. More than one
+                          format can be set as a comma separated values e.g.
+                          set nrformat=bin,alpha,hex
+
+See |visual-increment.txt| for more details
+
+==============================================================================
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+
+set rnu! : to remove relative numbers
+set nu   : in commandline mode to turn on and
+set nonu : will turn off the line number display or
+set nu!  : to toggle off display of line numbers
+<C-n>    : Toggle numbers or not number
+
+See |numbertoggle.txt| for more details
+
+==============================================================================
+Plug 'andymass/vim-matchup'
+
+{count}%  : If {count} is less than 7, go forwards {count} times.
+{count}[% : go to [count]th previous outer open word. Allows navigation to the 
+            start of blocks surrounding the cursor.
+{count}]% : go to [count]th next surrounding close word.
+
+Adds motions g%, [%, ]%, and z%. Combines these motions into convenient text 
+objects i% and a%.
+
+
+See |matchup.txt| for more details
+
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:
