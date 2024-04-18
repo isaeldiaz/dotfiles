@@ -56,7 +56,10 @@ Plug 'triglav/vim-visual-increment'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'andymass/vim-matchup'
 Plug 'AndrewRadev/linediff.vim'
+
+" Vim mark and its required plugin
 Plug 'inkarkat/vim-mark'
+Plug 'inkarkat/vim-ingo-library'
 
 
 " Windows only plugins
