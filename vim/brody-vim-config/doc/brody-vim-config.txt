@@ -5,6 +5,16 @@ This is a help file for my custom key bindings. It explains what each binding do
 <F10>      Opens this help window
 
 ==============================================================================
+Git functionality
+Plug 'sindrets/diffview.nvim'
+
+Git diffsplit                  Open Git diff side-by-side
+DiffviewOpen                   Open diff for the entire repo side-by side
+DiffviewOpen HEAD~4 HEAD~2     Open diff for the entire repo side-by side
+
+
+See |diffview.txt| and |fugitive.txt| for more details.
+==============================================================================
 Plug 'inkarkat/vim-mark'
 <Leader>m               Mark the word under the cursor
 <Leader>n               Clear mark
@@ -15,6 +25,12 @@ Plug 'inkarkat/vim-mark'
                         actual mark information is cleared,
 
 See |mark.txt| for more details
+==============================================================================
+Special replace:
+:s/PRE\zs.*\ze/text_to_insert/g          Replace whatever is between PRE and POST 
+                                         patterns with 'text_to_insert'
+:s/PRE\zs\_.\{-}\ze/text_to_insert/g     The match should hte the shortest
+                                         possible
 ==============================================================================
 Rigrep
 
@@ -169,7 +185,7 @@ In Visual mode:
                                      paragraph to '=' delimiter.
 
 In EasyAlign interactive mode 
-<c-x>      -> to enter regex expression
+<Ctrl-x>   -> to enter regex expression
 <space>    -> around 1st whitespaces
 2<space>   -> around 2nd whitespaces
 -<space>   -> around the last whitespaces
@@ -182,6 +198,11 @@ In EasyAlign interactive mode
 **=        -> left-right alternating around =
 <enter>=   -> right alignment around 1st =
 <enter>**= -> right-left alternating around =
+
+Example, align around "print":
+`echo "hola"; print "pirinola"`
+`echo "hasta la vista"; print "baby"`
+In visual mode: <Enter> <Ctrl-x>print<Enter>
 
 
 See |*easy-align.txt|* for more details.

@@ -1,5 +1,8 @@
 nnoremap <F10> :h brody-vim-config<CR>
 
+" Git config
+let g:fugitive_diff_tool = 'vimdiff'
+
 " Change grep behavior
 if executable("rg")
   set grepprg=rg\ --vimgrep\ --smart-case\ --hidden
