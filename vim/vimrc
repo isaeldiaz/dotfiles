@@ -24,6 +24,8 @@ if has('nvim')
   Plug 'nvim-lua/popup.nvim'
   " Navigation
   Plug 'nvim-telescope/telescope.nvim'
+  " Convinience
+  Plug 'sindrets/diffview.nvim'
 endif
 
 " Look and feel
