@@ -8,7 +8,7 @@ This is a help file for my custom key bindings. It explains what each binding do
 Git functionality
 Plug 'sindrets/diffview.nvim'
 
-Git diffsplit                  Open Git diff side-by-side
+Gdiffsplit                     Open Git diff side-by-side
 DiffviewOpen                   Open diff for the entire repo side-by side
 DiffviewOpen HEAD~4 HEAD~2     Open diff for the entire repo side-by side
 

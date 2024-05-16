@@ -92,7 +92,7 @@ nmap <Leader>s <Plug>(easymotion-overwin-f2)
 " ============  Plug 'scrooloose/nerdtree'
 map <F2> :NERDTreeToggle<CR>
 map <F3> :NERDTreeFind %<CR>
-map <Leader>n :NERDTreeFocus<CR>
+map <Leader><F2> :NERDTreeFocus<CR>
 let NERDTreeShowLineNumbers=1
 
 "==========     Plug 'nvim-telescope/telescope.nvim'
