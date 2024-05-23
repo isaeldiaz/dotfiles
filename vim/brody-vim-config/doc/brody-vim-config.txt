@@ -8,7 +8,16 @@ This is a help file for my custom key bindings. It explains what each binding do
 Git functionality
 Plug 'sindrets/diffview.nvim'
 
-Gdiffsplit                     Open Git diff side-by-side
+Git difftool [args]            Invoke `git diff [args]` and load the changes into the
+                               quickfix list. 
+Git difftool -y [args]         Invoke `git diff [args]`, open each changed file in a
+                               new tab.
+
+Git mergetool [args]           Like |:Git_difftool|, but target merge conflicts.
+Gclog [args]                   Use git-log [args] to load the commit history into the
+                               |quickfix| list.
+Gdiffsplit!                    Diff against any and all direct ancestors, retaining
+                               focus on the current window.
 DiffviewOpen                   Open diff for the entire repo side-by side
 DiffviewOpen HEAD~4 HEAD~2     Open diff for the entire repo side-by side
 
