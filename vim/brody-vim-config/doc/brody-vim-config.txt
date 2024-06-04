@@ -35,6 +35,11 @@ Plug 'inkarkat/vim-mark'
 
 See |mark.txt| for more details
 ==============================================================================
+Execute command
+
+:exec '%s/word_to_replace/' . @b . '/g'
+
+==============================================================================
 Special replace:
 :s/PRE\zs.*\ze/text_to_insert/g          Replace whatever is between PRE and POST 
                                          patterns with 'text_to_insert'
