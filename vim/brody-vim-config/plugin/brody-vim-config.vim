@@ -24,6 +24,9 @@ filetype indent on
 " associate *.upf with Tcl filetype
 au BufRead,BufNewFile *.upf set filetype=tcl
 
+" Remove character : from word delimiter when is a perl file
+autocmd FileType perl setlocal iskeyword-=:
+
 " ----------------------------------
 " Font Adjust sections
 if has('win32') || has ('win64')
