@@ -35,12 +35,25 @@ Plug 'inkarkat/vim-mark'
 
 See |mark.txt| for more details
 ==============================================================================
+Macros
+: let @w="GoHi:echo 'Hi again'"q    Macro description:
+                      1. Go to end of file, 
+                      2. insert new line,
+                      3. Go to normal mode
+                      4. echo Hi again
+                       -> <Ctrl-v><ESC>
+                       -> <Ctrl-v><ENTER>
+
+==============================================================================
 Execute command
 
 :exec '%s/word_to_replace/' . @b . '/g'
 
 ==============================================================================
 Special replace:
+
+:s/AAA/\=@a/g | :s/BBB/\=@b/g            Replace AAA and BBB with contents of
+                                         registers a and b, respectively
 :s/PRE\zs.*\ze/text_to_insert/g          Replace whatever is between PRE and POST 
                                          patterns with 'text_to_insert'
 :s/PRE\zs\_.\{-}\ze/text_to_insert/g     The match should hte the shortest
