@@ -144,19 +144,6 @@ navigation between vim and tmux splits using a consistent set of hotkeys.
 See |tmux-navigator.txt| for more details.
 
 ==============================================================================
-Plug 'jlanzarotta/bufexplorer'
-
-These are the bindings for the bufexplorer plugin, which provides an easy
-and convenient way to list and switch between buffers.
-
-<Leader>be :normal open
-<Leader>bt :toggle open / close
-<Leader>bs :force horizontal split open
-<Leader>bv :force vertical split open
-
-See |bufexplorer.txt| for more details.
-
-==============================================================================
 Plug 'tpope/vim-surround'
 
 These are the bindings for the surround plugin, which provides mappings to
