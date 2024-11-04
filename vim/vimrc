@@ -42,7 +42,6 @@ Plug 'juneedahamed/svnj.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'jlanzarotta/bufexplorer'
 
 " Languages
 Plug 'plasticboy/vim-markdown'
