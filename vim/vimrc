@@ -32,6 +32,7 @@ endif
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
+Plug 'kshenoy/vim-signature'
 
 " Version control
 Plug 'tpope/vim-fugitive'
