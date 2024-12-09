@@ -24,6 +24,7 @@ if has('nvim')
   Plug 'nvim-lua/popup.nvim'
   " Navigation
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+  Plug 'nvim-telescope/telescope-live-grep-args.nvim'
   " Convinience
   Plug 'sindrets/diffview.nvim'
 endif

@@ -100,9 +100,12 @@ let NERDTreeShowLineNumbers=1
 
 "==========     Plug 'nvim-telescope/telescope.nvim'
 nnoremap <leader>tf <cmd>Telescope find_files<cr>
-nnoremap <leader>tg <cmd>Telescope live_grep<cr>
+"nnoremap <leader>tg <cmd>Telescope live_grep<cr>
 nnoremap <leader>tb <cmd>Telescope buffers<cr>
 nnoremap <leader>th <cmd>Telescope help_tags<cr>
+
+lua require('telescope').load_extension('live_grep_args')
+nnoremap <leader>tg <cmd>Telescope live_grep_args<cr>
 
 "==========     Plug 'junegunn/vim-easy-align'
 vmap <Enter> <Plug>(EasyAlign)
