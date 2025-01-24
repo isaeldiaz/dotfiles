@@ -83,8 +83,10 @@ Special replace:
                                          registers a and b, respectively
 :s/PRE\zs.*\ze/text_to_insert/g          Replace whatever is between PRE and POST 
                                          patterns with 'text_to_insert'
-:s/PRE\zs\_.\{-}\ze/text_to_insert/g     The match should hte the shortest
+:s/PRE\zs\_.\{-}\ze/text_to_insert/g     The match should the the shortest
                                          possible
+:s/PATTERN/PRE-&-POST/g                  Placing PRE and POST before and
+                                         after match
 ==============================================================================
 Rigrep
 
