@@ -27,6 +27,7 @@ if has('nvim')
   Plug 'nvim-telescope/telescope-live-grep-args.nvim'
   " Convinience
   Plug 'sindrets/diffview.nvim'
+  Plug 'isaeldiaz/calc.nvim'
 endif
 
 " Look and feel
