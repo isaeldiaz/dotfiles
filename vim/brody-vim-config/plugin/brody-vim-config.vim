@@ -1,5 +1,8 @@
 nnoremap <F10> :h brody-vim-config<CR>
 
+" to fix color rendering with tmux
+set termguicolors
+
 " Git config
 let g:fugitive_diff_tool = 'vimdiff'
 
