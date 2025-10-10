@@ -4,7 +4,7 @@ Install-Module PowerShellGet
 Install-Module Microsoft.PowerShell.PSResourceGet -Repository PSGallery
 Install-Module PSReadLine
 Install-Module posh-git
-winget install fzf
+winget install  junegunn.fzf
 Install-Module -Name PSFzf
-New-Item -ItemType SymbolicLink -Path C:\Users\iwx1294590\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1 -Target C:\Users\iwx1294590\dotfiles\powershell\profile.ps1
+New-Item -ItemType SymbolicLink -Path C:\Users\IsaelDiaz\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1 -Target C:\Users\IsaelDiaz\dotfiles\powershell\profile.ps1
 
