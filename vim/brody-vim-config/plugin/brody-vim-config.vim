@@ -38,10 +38,14 @@ else
   let s:fonttype = 'Monospace:h'
 endif
 
-let s:fontsize = 12
+let s:fontsize = 10
 function! AdjustFontSize(amount)
   let s:fontsize = s:fontsize+a:amount
-  :execute "GuiFont! " . s:fonttype . s:fontsize
+  if exists('g:neovide')
+    :execute "set guifont=" . s:fonttype . s:fontsize
+  else
+    :execute "GuiFont! " . s:fonttype . s:fontsize
+  endif
 endfunction
 
 noremap <C-ScrollWheelUp> :call AdjustFontSize(1)<CR>
