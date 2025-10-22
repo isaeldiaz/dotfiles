@@ -13,3 +13,11 @@ export LANG=en_US.UTF-8
 
 export EDITOR='nvim'
 
+# Configure X11 for SSH sessions
+if [ -n "$DISPLAY" ]; then
+    # Set XAUTHORITY if not already set
+    [ -z "$XAUTHORITY" ] && export XAUTHORITY=$HOME/.Xauthority
+    
+    # Import X11 variables to systemd user session
+    systemctl --user import-environment DISPLAY XAUTHORITY 2>/dev/null || true
+fi
