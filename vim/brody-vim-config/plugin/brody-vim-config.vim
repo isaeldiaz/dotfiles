@@ -65,8 +65,6 @@ if has('win32') || has ('win64')
 
 endif
 
-" Copy automatically to clipboard
-set clipboard+=unnamedplus
 
 " ----------------------------------
 "  Mouse support toggling
@@ -136,4 +134,21 @@ function! ToggleNumbers()
 endfunction
 
 nnoremap <C-n> :call ToggleNumbers()<CR>
+
+"==========     Plug 'ojroques/nvim-osc52'
+" In your init.vim or .vimrc
+Plug 'ojroques/nvim-osc52'
+
+" Set clipboard to use OSC52
+autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | execute 'OSCYankReg +' | endif
+set clipboard+=unnamedplus
+
+" After installing, configure:
+lua << EOF
+require('osc52').setup {
+  max_length = 0,      -- Maximum length of selection (0 for no limit)
+  silent = false,      -- Disable message on successful copy
+  trim = false,        -- Trim text before copy
+}
+EOF
 
