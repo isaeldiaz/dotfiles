@@ -30,6 +30,9 @@ if has('nvim')
   Plug 'isaeldiaz/calc.nvim'
 endif
 
+" Enhanced functionality (required for nvim older than v0.10.
+Plug 'ojroques/nvim-osc52'
+
 " Look and feel
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
