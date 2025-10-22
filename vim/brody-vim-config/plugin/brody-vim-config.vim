@@ -136,8 +136,6 @@ endfunction
 nnoremap <C-n> :call ToggleNumbers()<CR>
 
 "==========     Plug 'ojroques/nvim-osc52'
-" In your init.vim or .vimrc
-Plug 'ojroques/nvim-osc52'
 
 " Set clipboard to use OSC52
 autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | execute 'OSCYankReg +' | endif
