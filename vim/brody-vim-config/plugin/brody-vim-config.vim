@@ -97,6 +97,8 @@ let g:airline_theme='distinguished'
 " ========== Plug 'plasticboy/vim-markdown'
 autocmd FileType markdown normal zR
 let g:vim_markdown_conceal = 0
+au FileType markdown syn clear htmlTag
+au FileType markdown syn clear htmlEndTag
 
 " ========== Plug 'easymotion/vim-easymotion'
 map  <Leader>w <Plug>(easymotion-bd-w)
