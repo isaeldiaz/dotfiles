@@ -38,7 +38,13 @@ else
   let s:fonttype = 'Monospace:h'
 endif
 
-let s:fontsize = 10
+
+
+let s:fontsize = 11
+if exists('g:neovide')
+  :execute "set guifont=" . s:fonttype . s:fontsize
+endif
+
 function! AdjustFontSize(amount)
   let s:fontsize = s:fontsize+a:amount
   if exists('g:neovide')
