@@ -3,6 +3,11 @@ nnoremap <F10> :h brody-vim-config<CR>
 " to fix color rendering with tmux
 set termguicolors
 
+" Allow for background transparency
+highlight Normal guibg=NONE ctermbg=NONE
+highlight NonText guibg=NONE ctermbg=NONE
+highlight SignColumn guibg=NONE ctermbg=NONE
+
 " Git config
 let g:fugitive_diff_tool = 'vimdiff'
 
