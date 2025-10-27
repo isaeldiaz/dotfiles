@@ -3,11 +3,6 @@ nnoremap <F10> :h brody-vim-config<CR>
 " to fix color rendering with tmux
 set termguicolors
 
-" Allow for background transparency
-highlight Normal guibg=NONE ctermbg=NONE
-highlight NonText guibg=NONE ctermbg=NONE
-highlight SignColumn guibg=NONE ctermbg=NONE
-
 " Git config
 let g:fugitive_diff_tool = 'vimdiff'
 
@@ -95,6 +90,14 @@ nnoremap <C-l> :call ToggleMouseSupport()<CR>
 " ===========  Plug 'flazz/vim-colorschemes'
 colorscheme wombat
 set background=dark
+
+" Allow for background transparency
+" These must be ran after colorscheme has been loaded
+highlight Normal guibg=NONE ctermbg=NONE
+highlight NonText guibg=NONE ctermbg=NONE
+highlight LineNr guibg=NONE ctermbg=NONE
+highlight CursorLineNr guibg=NONE ctermbg=NONE
+highlight SignColumn guibg=NONE ctermbg=NONE
 
 " ========== Plug 'vim-airline/vim-airline'
 let g:airline_theme='distinguished'
