@@ -84,7 +84,7 @@ function! ToggleMouseSupport()
   endif
 endfunction
 
-nnoremap <C-l> :call ToggleMouseSupport()<CR>
+nnoremap <M-m> :call ToggleMouseSupport()<CR>
     
 
 " ===========  Plug 'flazz/vim-colorschemes'

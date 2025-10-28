@@ -120,7 +120,7 @@ Example:
 See |linediff.txt| for more details
 ==============================================================================
 Mouse support
-<C-l>    Toggle mouse support
+<Alt-m>    Toggle mouse support
 ==============================================================================
 *Quickfix*
 
