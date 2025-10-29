@@ -73,7 +73,8 @@ endif
 
 
 " ----------------------------------
-"  Mouse support toggling
+"  Mouse support toggling (Off by default)
+set mouse=
 function! ToggleMouseSupport()
   if &mouse == 'a'
     set mouse=
