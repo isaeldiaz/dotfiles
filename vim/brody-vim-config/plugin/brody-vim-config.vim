@@ -159,6 +159,17 @@ function! ToggleNumbers()
 endfunction
 
 nnoremap <C-n> :call ToggleNumbers()<CR>
+" Plug 'kshenoy/vim-signature'
+" Creating ColorScheme triggers to set background to NONE whenever a
+" colorscheme is loaded. This commands must be placed in the configuration 
+" after corlorscheme has been loaded
+autocmd ColorScheme * highlight SignatureMarkText guibg=NONE ctermbg=NONE
+autocmd ColorScheme * highlight SignatureMarkerText guibg=NONE ctermbg=NONE
+autocmd ColorScheme * highlight SignColumn guibg=NONE ctermbg=NONE
+
+highlight SignatureMarkText guibg=NONE ctermbg=NONE
+highlight SignatureMarkerText guibg=NONE ctermbg=NONE
+highlight SignColumn guibg=NONE ctermbg=NONE
 
 "==========     Plug 'ojroques/nvim-osc52'
 
