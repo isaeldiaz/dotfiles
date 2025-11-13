@@ -135,6 +135,8 @@ nnoremap <leader>th <cmd>Telescope help_tags<cr>
 lua require('telescope').load_extension('live_grep_args')
 nnoremap <leader>tg <cmd>Telescope live_grep_args<cr>
 
+nnoremap <leader>tt :lua require('telescope.builtin').tags({default_text = vim.fn.expand('<cword>')})<CR>
+
 "==========     Plug 'junegunn/vim-easy-align'
 vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
