@@ -21,6 +21,10 @@ set diffopt+=algorithm:patience
 set guioptions-=T  "remove toolbar
 filetype indent on
 
+"symbols to handle invisible unicode characters
+" use :set list, and :set nolist
+set listchars=space:·,tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+
 
 " Associate r files to XML syntax
  au BufNewFile,BufRead *.r setlocal ft=xml
