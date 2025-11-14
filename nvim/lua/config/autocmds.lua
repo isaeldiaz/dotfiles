@@ -9,15 +9,6 @@ local autocmd = vim.api.nvim_create_autocmd
 -- File Type Specific Settings
 -- ============================================================================
 
--- Associate .r files with XML syntax
-autocmd({ "BufNewFile", "BufRead" }, {
-  pattern = "*.r",
-  callback = function()
-    vim.bo.filetype = "xml"
-  end,
-  desc = "Set .r files to XML filetype",
-})
-
 -- Associate .upf files with Tcl filetype
 autocmd({ "BufNewFile", "BufRead" }, {
   pattern = "*.upf",
@@ -41,8 +32,6 @@ autocmd("FileType", {
   pattern = "markdown",
   callback = function()
     vim.cmd("normal! zR") -- Unfold all
-    vim.cmd("syn clear htmlTag")
-    vim.cmd("syn clear htmlEndTag")
   end,
   desc = "Markdown-specific settings",
 })

@@ -76,12 +76,6 @@ end
 -- ============================================================================
 -- Better Navigation
 -- ============================================================================
--- Move to window using the <ctrl> hjkl keys (vim-tmux-navigator provides these too)
-keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
-keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
-keymap("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
-keymap("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
-
 -- Resize windows
 keymap("n", "<C-Up>", ":resize +2<CR>", opts)
 keymap("n", "<C-Down>", ":resize -2<CR>", opts)
