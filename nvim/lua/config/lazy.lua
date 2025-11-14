@@ -30,6 +30,17 @@ require("lazy").setup({
   },
   install = { colorscheme = { "wombat" } },
   checker = { enabled = false }, -- Don't automatically check for updates
+  -- Git configuration to prevent Windows line-ending issues
+  git = {
+    timeout = 300,
+    url_format = "https://github.com/%s.git",
+    filter = false,
+    -- FIX: Prevent Git from converting line endings on Windows
+    -- This stops the "local changes" error when updating plugins
+    config = {
+      ["core.autocrlf"] = "false",
+    },
+  },
   performance = {
     rtp = {
       -- Disable some rtp plugins
@@ -43,3 +54,4 @@ require("lazy").setup({
     },
   },
 })
+

@@ -2,7 +2,7 @@
 -- Language-Specific Plugins
 -- ============================================================================
 
-return {
+local plugins = {
   -- Markdown
   {
     "plasticboy/vim-markdown",
@@ -19,12 +19,14 @@ return {
     "nachumk/systemverilog.vim",
     ft = { "systemverilog", "verilog" },
   },
-
-  -- PowerShell (Windows only)
-  vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
-    and {
-      "PProvost/vim-ps1",
-      ft = "ps1",
-    }
-    or {},
 }
+
+-- Add PowerShell plugin only on Windows
+if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
+  table.insert(plugins, {
+    "PProvost/vim-ps1",
+    ft = "ps1",
+  })
+end
+
+return plugins
