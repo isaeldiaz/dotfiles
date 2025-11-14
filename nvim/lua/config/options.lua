@@ -65,9 +65,6 @@ if vim.fn.executable("rg") == 1 then
   opt.grepformat = "%f:%l:%c:%m"
 end
 
--- GUI options
-opt.guioptions:remove("T") -- Remove toolbar
-
 -- Enable filetype detection and indentation
 vim.cmd("filetype indent on")
 
