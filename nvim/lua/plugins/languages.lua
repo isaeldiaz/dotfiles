@@ -3,16 +3,20 @@
 -- ============================================================================
 
 local plugins = {
+
+  -- Treesitter
+  {"nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate"},
+
   -- Markdown
   {
-    "plasticboy/vim-markdown",
-    ft = "markdown",
-    config = function()
-      vim.g.vim_markdown_conceal = 0
-      vim.g.vim_markdown_math = 1
-      vim.g.vim_markdown_frontmatter = 1
-    end,
-  },
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {},
+},
 
   -- SystemVerilog
   {
