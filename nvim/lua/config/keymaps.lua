@@ -52,7 +52,9 @@ keymap("n", "<C-n>", toggle_numbers, { desc = "Toggle line numbers" })
 -- Font Size Adjustment (for GUI/Neovide)
 -- ============================================================================
 local fontsize = 11
-local fonttype = vim.fn.has("win32") == 1 and "Consolas:h" or "Monospace:h"
+local fonttype = vim.fn.has("win32") == 1 
+  and "JetBrainsMono Nerd Font,Consolas:h" 
+  or "JetBrainsMono Nerd Font,Monospace:h"
 
 local function adjust_font_size(amount)
   fontsize = fontsize + amount
