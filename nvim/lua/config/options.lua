@@ -21,11 +21,11 @@ opt.ignorecase = true -- Ignore case in search
 opt.smartcase = true -- Unless uppercase is used
 
 -- UI settings
-opt.number = true -- Show line numbers
-opt.relativenumber = true -- Show relative line numbers
+opt.number = false -- Don't Show line numbers
+opt.relativenumber = false -- Don't Show relative line numbers
 opt.signcolumn = "yes" -- Always show sign column
 opt.cursorline = false -- Don't highlight current line
-opt.wrap = false -- Don't wrap lines
+opt.wrap = true -- Wrap lines
 opt.scrolloff = 8 -- Keep 8 lines above/below cursor
 
 -- Split windows
