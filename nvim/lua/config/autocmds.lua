@@ -40,6 +40,11 @@ autocmd("FileType", {
       if has_parser then
         vim.treesitter.start()
       end
+    else
+      vim.schedule(function()
+        vim.cmd("syntax clear markdownError") -- disable syntax error (Too conservative)
+      end)
+      vim.cmd("setlocal syntax=OFF")  -- Disable built-in syntax, Treesitter instead
     end
   end,
   desc = "Markdown-specific settings",
