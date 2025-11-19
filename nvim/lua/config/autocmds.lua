@@ -32,10 +32,7 @@ autocmd("FileType", {
   pattern = "markdown",
   callback = function()
     vim.cmd("normal! zR") -- Unfold all
-    vim.schedule(function()
-      vim.cmd("syntax clear markdownError") -- disable syntax error (Too conservative)
-    end)
-    vim.cmd("setlocal syntax=OFF")  -- Disable built-in syntax, Treesitter instead
+    vim.treesitter.start()
   end,
   desc = "Markdown-specific settings",
 })
