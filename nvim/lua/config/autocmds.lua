@@ -27,12 +27,20 @@ autocmd("FileType", {
   desc = "Remove : from Perl word delimiters",
 })
 
--- Markdown settings: unfold all and clear HTML tags
+-- Markdown settings: unfold all and enable treesitter if available
 autocmd("FileType", {
   pattern = "markdown",
   callback = function()
     vim.cmd("normal! zR") -- Unfold all
-    vim.treesitter.start()
+    -- Only enable treesitter on Neovim 0.10+
+    local nvim_version = vim.version()
+    local is_nvim_10_plus = nvim_version.major > 0 or (nvim_version.major == 0 and nvim_version.minor >= 10)
+    if is_nvim_10_plus then
+      local has_parser = pcall(vim.treesitter.language.inspect, 'markdown')
+      if has_parser then
+        vim.treesitter.start()
+      end
+    end
   end,
   desc = "Markdown-specific settings",
 })
