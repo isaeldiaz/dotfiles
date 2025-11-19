@@ -2,13 +2,19 @@
 -- Language-Specific Plugins
 -- ============================================================================
 
-local plugins = {
+local plugins = {}
 
-  -- Treesitter
-  {"nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate",
+-- Check Neovim version
+local nvim_version = vim.version()
+local is_nvim_10_plus = nvim_version.major > 0 or (nvim_version.major == 0 and nvim_version.minor >= 10)
+
+-- Treesitter (only for Neovim 0.10+)
+if is_nvim_10_plus then
+  table.insert(plugins, {
+    "nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate",
     opts = {
-      ensure_installed = { 
-        'markdown', 
+      ensure_installed = {
+        'markdown',
         'markdown_inline',
         'html',      -- add these if you want them
         'latex',
@@ -18,39 +24,46 @@ local plugins = {
         enable = true,
       },
     },
-  },
+  })
+end
 
-  -- Markdown
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 
+-- Markdown
+local render_markdown_config = {
+  'MeanderingProgrammer/render-markdown.nvim',
+  dependencies = is_nvim_10_plus and { 'nvim-treesitter/nvim-treesitter',
     'nvim-tree/nvim-web-devicons', -- optional, for icons
-    'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
-    opts = {
-      heading = { sign = false },
-      html = { enabled = false },
-      latex = { enabled = false },
-      yaml = { enabled = false },
-    },
-    config = function(_, opts)
-	    require('render-markdown').setup(opts)
-
-	    -- Enable treesitter highlighting for markdown
-	    vim.api.nvim_create_autocmd('FileType', {
-		    pattern = 'markdown',
-		    callback = function()
-			    vim.treesitter.start()
-		    end,
-	    })
-    end,
+    'nvim-mini/mini.nvim' } or { 'nvim-tree/nvim-web-devicons', 'nvim-mini/mini.nvim' },
+  opts = {
+    heading = { sign = false },
+    html = { enabled = false },
+    latex = { enabled = false },
+    yaml = { enabled = false },
   },
+  config = function(_, opts)
+	  require('render-markdown').setup(opts)
 
-  -- SystemVerilog
-  {
-    "nachumk/systemverilog.vim",
-    ft = { "systemverilog", "verilog" },
-  },
+	  -- Enable treesitter highlighting for markdown (only on Neovim 0.10+)
+	  if is_nvim_10_plus then
+		  vim.api.nvim_create_autocmd('FileType', {
+			  pattern = 'markdown',
+			  callback = function()
+				  local has_parser = pcall(vim.treesitter.language.inspect, 'markdown')
+				  if has_parser then
+					  vim.treesitter.start()
+				  end
+			  end,
+		  })
+	  end
+  end,
 }
+
+table.insert(plugins, render_markdown_config)
+
+-- SystemVerilog
+table.insert(plugins, {
+  "nachumk/systemverilog.vim",
+  ft = { "systemverilog", "verilog" },
+})
 
 -- Add PowerShell plugin only on Windows
 if vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1 then
