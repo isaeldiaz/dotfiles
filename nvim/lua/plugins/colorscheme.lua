@@ -4,6 +4,10 @@
 
 return {
   {
+    -- WARNING: Windows file system is case-insensitive, to avoid git issues
+    -- to handle darkBlue.vim and darkblue.vim for Windows, run the following
+    -- command on the cloned repository.
+    -- git update-index --skip-worktree colors/darkBlue.vim
     "flazz/vim-colorschemes",
     lazy = false,
     priority = 1000, -- Load before other plugins
