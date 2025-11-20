@@ -30,7 +30,7 @@ require("lazy").setup({
     lazy = false, -- Don't lazy-load by default
     version = false, -- Use latest git commit, not releases
   },
-  install = { colorscheme = { "wombat" } },
+  install = { colorscheme = { "tokyonight" } },
   checker = { enabled = false }, -- Don't automatically check for updates
   -- Git configuration to prevent Windows line-ending issues
   git = {

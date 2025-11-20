@@ -32,14 +32,12 @@ autocmd("FileType", {
   pattern = "markdown",
   callback = function()
     vim.cmd("normal! zR") -- Unfold all
-    -- Only enable treesitter on Neovim 0.10+
+    -- Enable treesitter on Neovim 0.10+
     local nvim_version = vim.version()
     local is_nvim_10_plus = nvim_version.major > 0 or (nvim_version.major == 0 and nvim_version.minor >= 10)
     if is_nvim_10_plus then
-      local has_parser = pcall(vim.treesitter.language.inspect, 'markdown')
-      if has_parser then
-        vim.treesitter.start()
-      end
+      -- Use vim.treesitter.start() to enable syntax highlighting
+      pcall(vim.treesitter.start)
     else
       vim.schedule(function()
         vim.cmd("syntax clear markdownError") -- disable syntax error (Too conservative)

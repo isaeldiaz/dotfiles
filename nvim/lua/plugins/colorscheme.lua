@@ -4,18 +4,19 @@
 
 return {
   {
-    -- WARNING: Windows file system is case-insensitive, to avoid git issues
-    -- to handle darkBlue.vim and darkblue.vim for Windows, run the following
-    -- command on the cloned repository.
-    -- git update-index --skip-worktree colors/darkBlue.vim
-    "flazz/vim-colorschemes",
+    "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000, -- Load before other plugins
     config = function()
-      -- Set colorscheme
-      vim.cmd("colorscheme wombat")
+      -- Set tokyonight with moon variant (darker, more contrast)
+      require("tokyonight").setup({
+        style = "moon", -- moon, storm, or night
+        transparent = false, -- Allow transparent background (handled in autocmds)
+        terminal_colors = true,
+      })
+      vim.cmd("colorscheme tokyonight")
       vim.opt.background = "dark"
-      
+
       -- The transparent background is handled in autocmds.lua
     end,
   },
