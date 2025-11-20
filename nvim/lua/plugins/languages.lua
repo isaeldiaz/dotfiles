@@ -12,18 +12,20 @@ local is_nvim_10_plus = nvim_version.major > 0 or (nvim_version.major == 0 and n
 if is_nvim_10_plus then
   table.insert(plugins, {
     "nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate",
-    opts = {
-      ensure_installed = {
-        'markdown',
-        'markdown_inline',
-        'html',      -- add these if you want them
-        'latex',
-        'yaml',
-      },
-      highlight = {
-        enable = true,
-      },
-    },
+    config = function()
+      require('nvim-treesitter.configs').setup({
+        ensure_installed = {
+          'markdown',
+          'markdown_inline',
+          'html',      -- add these if you want them
+          'latex',
+          'yaml',
+        },
+        highlight = {
+          enable = true,
+        },
+      })
+    end,
   })
 end
 
