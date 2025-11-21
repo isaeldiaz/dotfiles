@@ -15,15 +15,33 @@ if is_nvim_10_plus then
     config = function()
       require('nvim-treesitter.configs').setup({
         ensure_installed = {
+          'lua',
           'markdown',
           'markdown_inline',
-          'html',      -- add these if you want them
+          'html',
           'latex',
           'yaml',
+          'verilog',
         },
         highlight = {
           enable = true,
+          disable = function(lang, buf)
+            -- Fallback to native syntax highlighting if parser not available
+            local has_parser = pcall(vim.treesitter.language.inspect, lang)
+            return not has_parser
+          end,
         },
+      })
+
+      -- Gracefully handle missing parsers - don't error out
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = '*',
+        callback = function()
+          local has_parser = pcall(vim.treesitter.language.inspect, vim.bo.filetype)
+          if has_parser then
+            pcall(vim.treesitter.start)
+          end
+        end,
       })
     end,
   })
