@@ -14,7 +14,7 @@ keymap("t", "<Esc>", "<C-\\><C-n>", opts)
 -- ============================================================================
 -- Mouse Support Toggle
 -- ============================================================================
-local mouse_enabled = false
+local mouse_enabled = vim.g.neovide or false
 local function toggle_mouse_support()
   if mouse_enabled then
     vim.opt.mouse = ""
