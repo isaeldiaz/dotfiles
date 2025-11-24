@@ -6,7 +6,7 @@ local opt = vim.opt
 
 -- Terminal and GUI settings
 opt.termguicolors = true -- Enable true color support
-opt.mouse = "" -- Disable mouse by default (toggle with <M-m>)
+opt.mouse = vim.g.neovide and "a" or "" -- Enable mouse on Neovide, disable otherwise (toggle with <M-m>)
 opt.mousehide = false -- Don't hide mouse when typing
 
 -- Indentation settings
