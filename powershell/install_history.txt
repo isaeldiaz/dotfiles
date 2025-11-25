@@ -3,8 +3,9 @@ Set-ExecutionPolicy Unrestricted
 Install-Module PowerShellGet
 Install-Module Microsoft.PowerShell.PSResourceGet -Repository PSGallery
 Install-Module PSReadLine
-Install-Module posh-git
-winget install  junegunn.fzf
+winget install junegunn.fzf
 Install-Module -Name PSFzf
+winget install JanDeDobbeleer.OhMyPosh
 New-Item -ItemType SymbolicLink -Path C:\Users\IsaelDiaz\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1 -Target C:\Users\IsaelDiaz\dotfiles\powershell\profile.ps1
+New-Item -ItemType SymbolicLink -Path C:\Users\IsaelDiaz\.config\oh-my-posh\config.json -Target C:\Users\IsaelDiaz\dotfiles\powershell\config.json
 
