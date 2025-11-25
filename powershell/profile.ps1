@@ -8,6 +8,11 @@ Set-PSReadlineOption -EditMode vi
 #Fuzzy finder PSReadline integration
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 
+# Add usersProg to PATH if not already present
+$usersProgPath = "$env:USERPROFILE\.local\bin"
+if ($env:Path -notlike "*$usersProgPath*") {
+    $env:Path += ";$usersProgPath"
+}
 
 # Dracula readline configuration. Requires version 2.0, if you have 1.2 convert to `Set-PSReadlineOption -TokenType`
 Set-PSReadlineOption -Color @{
