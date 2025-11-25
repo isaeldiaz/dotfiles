@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "version": 3,
   "final_space": true,
-  "console_title_template": "{{.Shell}} - {{.Folder}}",
+  "console_title_template": "{{.Shell}} in {{.Folder}}",
   "blocks": [
     {
       "type": "prompt",
@@ -11,15 +11,15 @@
         {
           "type": "text",
           "style": "plain",
-          "foreground": "#00FF00",
+          "foreground": "#a3be8c",
           "properties": {
-            "text": "→ "
+            "text": "❯ "
           }
         },
         {
           "type": "path",
           "style": "plain",
-          "foreground": "#00D7FF",
+          "foreground": "#88c0d0",
           "properties": {
             "style": "folder",
             "max_depth": 3
@@ -28,22 +28,23 @@
         {
           "type": "git",
           "style": "plain",
-          "foreground": "#FFD700",
+          "foreground": "#81a1c1",
           "properties": {
             "fetch_status": true,
             "fetch_upstream_icon": true,
             "ignore_submodules": true,
-            "branch_icon": "",
-            "commit_icon": "@",
-            "template": " {{ .UpstreamIcon }}{{ .Branch }}{{ if .Working.Changed }} ~{{ .Working.String }}{{ end }}{{ if .Staging.Changed }} +{{ .Staging.String }}{{ end }}"
+            "branch_icon": " ",
+            "template": "git:({{ .Branch }})"
           }
         },
         {
-          "type": "text",
+          "type": "status",
           "style": "plain",
-          "foreground": "#FF69B4",
+          "foreground": "#ebcb8b",
           "properties": {
-            "text": " › "
+            "status_template": "{{ if eq .Code 0 }}✔{{ else }}✗ {{ .Code }}{{ end }}",
+            "status_separator": " | ",
+            "always_enabled": false
           }
         }
       ]
