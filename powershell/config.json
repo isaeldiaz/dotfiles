@@ -11,7 +11,7 @@
         {
           "type": "text",
           "style": "plain",
-          "foreground": "green",
+          "foreground": "#00FF00",
           "properties": {
             "text": "→ "
           }
@@ -19,7 +19,7 @@
         {
           "type": "path",
           "style": "plain",
-          "foreground": "cyan",
+          "foreground": "#00D7FF",
           "properties": {
             "style": "folder",
             "max_depth": 3
@@ -28,19 +28,20 @@
         {
           "type": "git",
           "style": "plain",
-          "foreground": "blue",
+          "foreground": "#FFD700",
           "properties": {
             "fetch_status": true,
             "fetch_upstream_icon": true,
             "ignore_submodules": true,
             "branch_icon": "",
-            "commit_icon": "@"
+            "commit_icon": "@",
+            "template": " {{ .UpstreamIcon }}{{ .Branch }}{{ if .Working.Changed }} ~{{ .Working.String }}{{ end }}{{ if .Staging.Changed }} +{{ .Staging.String }}{{ end }}"
           }
         },
         {
           "type": "text",
           "style": "plain",
-          "foreground": "magenta",
+          "foreground": "#FF69B4",
           "properties": {
             "text": " › "
           }
