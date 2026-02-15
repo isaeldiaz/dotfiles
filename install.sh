@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tools=("curl" "wget" "git" "nvim" "zsh" "tmux" "rg" )
+tools=("curl" "wget" "git" "nvim" "zsh" "tmux" "rg" "fzf" "keepassxc-cli")
 
 for tool in "${tools[@]}"; do
   if ! command -v "$tool" &> /dev/null; then
@@ -12,12 +12,9 @@ for tool in "${tools[@]}"; do
 done
 [[ -v TOOL_MISSING ]] && exit 1;
 
-
-
 DOTFILES_DIR="$(realpath "${BASH_SOURCE[0]}" |xargs dirname)"
 
 ########### ZSH ##################
-=======
 if [ ! -d "$HOME/bin" ]; then
   mkdir "$HOME/bin"
 fi

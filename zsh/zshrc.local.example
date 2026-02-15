@@ -1,0 +1,6 @@
+# Copy this file to ~/.zshrc.local and adjust values
+# This file is sourced by .zshrc and is NOT committed to the repo
+
+export KP_DB="$HOME/passwords.kdbx"
+# export KP_KEYFILE="$HOME/keyfile.key"
+export KP_TIMEOUT=300
