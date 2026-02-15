@@ -13,6 +13,11 @@ export LANG=en_US.UTF-8
 
 export EDITOR='nvim'
 
+# Source local overrides (not committed to repo)
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+alias kp="$HOME/dotfiles/scripts/kp.sh"
+
 # Configure X11 for SSH sessions
 if [ -n "$DISPLAY" ]; then
     # Set XAUTHORITY if not already set
