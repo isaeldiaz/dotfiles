@@ -84,7 +84,7 @@ fi
 SELECTED="$(echo "$ENTRIES" | fzf "${FZF_ARGS[@]}")" || { echo "No entry selected." >&2; exit 1; }
 
 # --- Show entry details ---
-SHOW_OUTPUT="$(printf '%s' "$PASS" | keepassxc-cli show "${CLI_ARGS[@]}" "$KP_DB" "$SELECTED" 2>/dev/null)"
+SHOW_OUTPUT="$(printf '%s' "$PASS" | keepassxc-cli show -s "${CLI_ARGS[@]}" "$KP_DB" "$SELECTED" 2>/dev/null)"
 
 PASSWORD="$(echo "$SHOW_OUTPUT" | grep -m1 '^Password:' | sed 's/^Password: //')"
 USERNAME="$(echo "$SHOW_OUTPUT" | grep -m1 '^UserName:' | sed 's/^UserName: //')"
