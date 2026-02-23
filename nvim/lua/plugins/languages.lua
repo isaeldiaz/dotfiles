@@ -21,6 +21,7 @@ if is_nvim_10_plus then
           'markdown_inline',
           'html',
           'latex',
+          'make',
           'yaml',
           'verilog',
         },
