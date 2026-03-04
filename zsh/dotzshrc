@@ -16,7 +16,18 @@ export EDITOR='nvim'
 # Source local overrides (not committed to repo)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
-alias bat=batcat
+# Modern CLI replacements
+alias bat='batcat'
+
+if command -v eza &> /dev/null; then
+  alias ls='eza'
+  alias ll='eza -l'
+  alias la='eza -la'
+  alias lt='eza --tree --level=2'
+else
+  alias ll='ls -l'
+  alias la='ls -la'
+fi
 
 # Configure X11 for SSH sessions
 if [ -n "$DISPLAY" ]; then
