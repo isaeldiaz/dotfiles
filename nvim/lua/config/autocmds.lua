@@ -76,14 +76,16 @@ local function set_transparent_bg()
   end
 end
 
--- Apply transparent background after colorscheme loads
-autocmd("ColorScheme", {
-  callback = set_transparent_bg,
-  desc = "Set transparent background",
-})
+-- Apply transparent background after colorscheme loads (skip in Neovide)
+if not vim.g.neovide then
+  autocmd("ColorScheme", {
+    callback = set_transparent_bg,
+    desc = "Set transparent background",
+  })
 
--- Apply it now for initial load
-set_transparent_bg()
+  -- Apply it now for initial load
+  set_transparent_bg()
+end
 
 -- ============================================================================
 -- Clipboard Integration (OSC52)
@@ -141,3 +143,12 @@ autocmd("BufReadPost", {
   end,
   desc = "Restore cursor position",
 })
+
+-- ============================================================================
+-- Neovide Settings
+-- ============================================================================
+
+if vim.g.neovide then
+  vim.g.neovide_opacity = 0.85        -- 85% opaque (semi-transparent)
+  vim.g.neovide_window_blurred = true -- Blur content behind window (Windows Acrylic / macOS vibrancy)
+end
