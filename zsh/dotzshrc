@@ -33,7 +33,25 @@ fi
 if [ -n "$DISPLAY" ]; then
     # Set XAUTHORITY if not already set
     [ -z "$XAUTHORITY" ] && export XAUTHORITY=$HOME/.Xauthority
-    
+
     # Import X11 variables to systemd user session
     systemctl --user import-environment DISPLAY XAUTHORITY 2>/dev/null || true
 fi
+
+# Clipboard via OSC 52 — works over SSH without X11 or tmux.
+# WezTerm (and most modern terminals) receive the escape sequence and
+# put the content directly into the host OS clipboard.
+#
+# Usage:
+#   echo "hello" | clipipe      # pipe stdin to clipboard
+#   clip "some text"            # copy arguments to clipboard
+clip() {
+  local encoded
+  encoded=$(printf '%s' "$*" | base64 | tr -d '\n')
+  printf "\033]52;c;%s\a" "$encoded"
+}
+clipipe() {
+  local encoded
+  encoded=$(base64 | tr -d '\n')
+  printf "\033]52;c;%s\a" "$encoded"
+}
