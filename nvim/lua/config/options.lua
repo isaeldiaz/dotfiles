@@ -56,8 +56,26 @@ opt.undodir = vim.fn.stdpath("data") .. "/undo"
 opt.updatetime = 250 -- Faster completion
 opt.timeoutlen = 300 -- Faster key sequence completion
 
--- Clipboard (using OSC52 for remote sessions)
+-- Clipboard: use OSC 52 so yanks reach the host OS clipboard over SSH,
+-- both with and without tmux (tmux forwards OSC 52 via set-clipboard on).
+-- Falls back to standard providers on Neovide or when OSC 52 is unavailable.
 opt.clipboard = "unnamedplus"
+if not vim.g.neovide and vim.fn.has("nvim-0.10") == 1 then
+  local ok, osc52 = pcall(require, "vim.ui.clipboard.osc52")
+  if ok then
+    vim.g.clipboard = {
+      name = "OSC 52",
+      copy = {
+        ["+"] = osc52.copy("+"),
+        ["*"] = osc52.copy("*"),
+      },
+      paste = {
+        ["+"] = osc52.paste("+"),
+        ["*"] = osc52.paste("*"),
+      },
+    }
+  end
+end
 
 -- Grep program
 if vim.fn.executable("rg") == 1 then
