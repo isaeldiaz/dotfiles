@@ -69,9 +69,11 @@ if not vim.g.neovide and vim.fn.has("nvim-0.10") == 1 then
         ["+"] = osc52.copy("+"),
         ["*"] = osc52.copy("*"),
       },
+      -- OSC 52 paste requires a terminal round-trip that hangs over plain SSH.
+      -- Use the terminal's own paste instead: Ctrl+Shift+V in WezTerm.
       paste = {
-        ["+"] = osc52.paste("+"),
-        ["*"] = osc52.paste("*"),
+        ["+"] = function() return nil end,
+        ["*"] = function() return nil end,
       },
     }
   end
