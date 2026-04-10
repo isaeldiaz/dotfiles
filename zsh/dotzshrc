@@ -5,7 +5,7 @@ export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 ZSH_THEME="crunch"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git fzf)
+plugins=(git fzf zoxide)
 
 source $ZSH/oh-my-zsh.sh
 
