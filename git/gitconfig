@@ -29,7 +29,26 @@
 [difftool]
 	prompt = true
 [difftool "meld"]
-        cmd = meld "$LOCAL" "$REMOTE"
+	cmd = meld "$LOCAL" "$REMOTE"
+# nvim-diffview: vimdiff inside Neovim for file-level git difftool calls.
+# DiffviewOpen reads from git directly; for per-file difftool invocations
+# use nvim -d so the two temp files are shown side-by-side.
+# Usage:  git difftool --tool=nvim-diffview
+[difftool "nvim-diffview"]
+	cmd = nvim -f -d "$LOCAL" "$REMOTE"
+	trustExitCode = false
+[merge]
+	tool = meld
+[mergetool]
+	prompt = false
+	keepBackup = false
+# nvim-diffview mergetool: opens DiffviewOpen on a conflicted repo.
+# Diffview detects conflicts automatically and shows the 3-way layout.
+# Switch to it for a session:  git mergetool --tool=nvim-diffview
+# Or set as default:           git config merge.tool nvim-diffview
+[mergetool "nvim-diffview"]
+	cmd = nvim -f -c "DiffviewOpen" "$MERGED"
+	trustExitCode = false
 [delta]
 	features = line-numbers decorations
 	line-numbers = true
@@ -255,5 +274,3 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[merge]
-	tool = meld
