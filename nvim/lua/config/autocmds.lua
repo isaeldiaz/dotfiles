@@ -9,6 +9,15 @@ local autocmd = vim.api.nvim_create_autocmd
 -- File Type Specific Settings
 -- ============================================================================
 
+-- Associate .flist files with bash filetype
+autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = "*.flist",
+  callback = function()
+    vim.bo.filetype = "bash"
+  end,
+  desc = "Set .flist files to bash filetype",
+})
+
 -- Associate .upf files with Tcl filetype
 autocmd({ "BufNewFile", "BufRead" }, {
   pattern = "*.upf",

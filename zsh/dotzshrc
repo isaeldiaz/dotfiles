@@ -5,7 +5,7 @@ export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 ZSH_THEME="crunch"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git fzf zoxide)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -16,8 +16,10 @@ export EDITOR='nvim'
 # Source local overrides (not committed to repo)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
-# Modern CLI replacements
-alias bat='batcat'
+# Use batcat (Debian/Ubuntu) or bat (everyone else)
+if command -v batcat &>/dev/null; then
+    alias bat='batcat'
+fi
 
 if command -v eza &> /dev/null; then
   alias ls='eza'
