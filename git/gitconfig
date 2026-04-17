@@ -69,7 +69,7 @@
 [gitflow "prefix"]
 	versiontag = v
 [sequence]
-	editor = interactive-rebase-tool
+	editor = vim
 [alias]
 	a = add --all
 	ai = add -i
