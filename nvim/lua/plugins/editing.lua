@@ -3,6 +3,12 @@
 -- ============================================================================
 
 return {
+  -- Abbreviation, substitution, and coercion (snake_case, camelCase, etc.)
+  {
+    "tpope/vim-abolish",
+    event = "VeryLazy",
+  },
+
   -- Surround text objects
   {
     "tpope/vim-surround",
