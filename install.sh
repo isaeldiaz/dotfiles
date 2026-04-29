@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tools=("curl" "wget" "git" "nvim" "zsh" "tmux" "rg" "fzf" "keepassxc-cli")
+tools=("curl" "wget" "git" "nvim" "zsh" "tmux" "rg" "fzf" "keepassxc-cli" "jq")
 
 for tool in "${tools[@]}"; do
   if ! command -v "$tool" &> /dev/null; then
@@ -42,4 +42,11 @@ ln -s $DOTFILES_DIR/tmux/tmux.conf $HOME/.tmux.conf
 
 ########## NEOVIM ##########
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+########## CLAUDE CODE ##########
+mkdir -p "$HOME/.claude"
+for f in settings.json statusline-command.sh; do
+  [ -e "$HOME/.claude/$f" ] && mv "$HOME/.claude/$f" "$HOME/.claude/$f.backup"
+  ln -s "$DOTFILES_DIR/claude/$f" "$HOME/.claude/$f"
+done
 
