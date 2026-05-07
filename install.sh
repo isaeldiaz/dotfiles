@@ -46,7 +46,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 ########## CLAUDE CODE ##########
 mkdir -p "$HOME/.claude"
 for f in settings.json statusline-command.sh; do
-  [ -e "$HOME/.claude/$f" ] && mv "$HOME/.claude/$f" "$HOME/.claude/$f.backup"
+  { [ -e "$HOME/.claude/$f" ] || [ -L "$HOME/.claude/$f" ]; } && mv "$HOME/.claude/$f" "$HOME/.claude/$f.backup"
   ln -s "$DOTFILES_DIR/claude/$f" "$HOME/.claude/$f"
 done
 
