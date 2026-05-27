@@ -1,6 +1,9 @@
 #!/bin/bash
+[[ -n "$TMUX" ]] && exit 0          # already inside tmux
+[[ $- != *i* ]] && exit 0           # non-interactive shell
+
 if tmux has-session 2>/dev/null; then
-  tmux attach
+  exec tmux attach
 else
-  tmux new-session
+  exec tmux new-session
 fi

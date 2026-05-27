@@ -1,8 +1,9 @@
 #!/bin/bash
 
-tools=("curl" "wget" "git" "nvim" "zsh" "tmux" "rg" "fzf" "keepassxc-cli" "jq")
+required_tools=("curl" "git" "nvim" "tmux" "rg" "fzf" "keepassxc-cli" "jq")
+optional_tools=("zsh" "wget")
 
-for tool in "${tools[@]}"; do
+for tool in "${required_tools[@]}"; do
   if ! command -v "$tool" &> /dev/null; then
     echo "$tool is not installed"
     TOOL_MISSING=true
@@ -10,23 +11,45 @@ for tool in "${tools[@]}"; do
     echo "$tool : OK"
   fi
 done
-[[ -v TOOL_MISSING ]] && exit 1;
+[[ -v TOOL_MISSING ]] && exit 1
+
+for tool in "${optional_tools[@]}"; do
+  if ! command -v "$tool" &> /dev/null; then
+    echo "$tool : not found (optional, skipping dependent setup)"
+  else
+    echo "$tool : OK"
+  fi
+done
 
 DOTFILES_DIR="$(realpath "${BASH_SOURCE[0]}" |xargs dirname)"
+
+########### LOCAL CONFIG ##################
+if [ ! -f "$HOME/.dotfiles.local" ]; then
+  cp "$DOTFILES_DIR/local.example.sh" "$HOME/.dotfiles.local"
+  echo "Created ~/.dotfiles.local from example — edit it to enable machine-specific features"
+fi
 
 ########### ZSH ##################
 if [ ! -d "$HOME/bin" ]; then
   mkdir "$HOME/bin"
 fi
 
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-fi
+if command -v zsh > /dev/null 2>&1; then
+  if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    if command -v wget > /dev/null 2>&1; then
+      sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    else
+      sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    fi
+  fi
 
-if [ -f "$HOME/.zshrc" ]; then
-  mv $HOME/.zshrc $HOME/.zshrc.backup
+  if [ -f "$HOME/.zshrc" ]; then
+    mv $HOME/.zshrc $HOME/.zshrc.backup
+  fi
+  ln -s $DOTFILES_DIR/zsh/dotzshrc $HOME/.zshrc
+else
+  echo "zsh not found — skipping oh-my-zsh and .zshrc setup"
 fi
-ln -s $DOTFILES_DIR/zsh/dotzshrc $HOME/.zshrc
 
 
 ########### TMUX ##################
