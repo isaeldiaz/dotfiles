@@ -1,3 +1,11 @@
+# Load machine-local feature flags (not committed to repo)
+[ -f ~/.dotfiles.local ] && . ~/.dotfiles.local
+
+# Auto-attach to tmux on SSH login (before loading oh-my-zsh for speed)
+if [ "${DOTFILES_TMUX_AUTO_ATTACH:-false}" = "true" ] && [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then
+  exec ~/dotfiles/scripts/tmux-auto-attach.sh
+fi
+
 export ZSH="$HOME/.oh-my-zsh"
 
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
