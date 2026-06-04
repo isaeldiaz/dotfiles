@@ -117,6 +117,7 @@
 	dck = diff --cached --check
 	dt = difftool
 	dct = difftool --cached
+  db = diff --merge-base
 	#############
 	f = fetch
 	fo = fetch origin
