@@ -72,4 +72,7 @@ for f in settings.json statusline-command.sh; do
   { [ -e "$HOME/.claude/$f" ] || [ -L "$HOME/.claude/$f" ]; } && mv "$HOME/.claude/$f" "$HOME/.claude/$f.backup"
   ln -s "$DOTFILES_DIR/claude/$f" "$HOME/.claude/$f"
 done
+# User-level custom slash commands (available in every session)
+{ [ -e "$HOME/.claude/commands" ] || [ -L "$HOME/.claude/commands" ]; } && mv "$HOME/.claude/commands" "$HOME/.claude/commands.backup"
+ln -s "$DOTFILES_DIR/claude/commands" "$HOME/.claude/commands"
 
