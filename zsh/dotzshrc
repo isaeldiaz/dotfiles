@@ -29,6 +29,11 @@ if command -v batcat &>/dev/null; then
     alias bat='batcat'
 fi
 
+# Use fdfind (Debian/Ubuntu) when fd is unavailable
+if ! command -v fd &>/dev/null && command -v fdfind &>/dev/null; then
+    alias fd='fdfind'
+fi
+
 if command -v eza &> /dev/null; then
   alias ls='eza'
   alias ll='eza -l'
@@ -65,3 +70,5 @@ clipipe() {
   encoded=$(base64 | tr -d '\n')
   printf "\033]52;c;%s\a" "$encoded"
 }
+
+alias rp='realpath'
