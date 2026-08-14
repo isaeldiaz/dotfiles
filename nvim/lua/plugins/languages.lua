@@ -50,8 +50,37 @@ if is_nvim_10_plus then
 end
 
 -- Markdown
+-- Word-wrapped tables. Upstream render-markdown has no option for this (see
+-- issue #616), so this tracks MaxDillon's open PR #617 (table cell wrapping),
+-- pinned to a commit, plus a local patch that makes wrapped cells break at word
+-- boundaries instead of mid-word.
+--
+-- `:Lazy update` will show this plugin as dirty -- that is the patch, and the
+-- commit pin means there is nothing to update anyway.
+--
+-- To revert to upstream: delete url/branch/commit/build and the pipe_table line
+-- below, restore the lazy-lock.json entry, then `:Lazy sync`.
 local render_markdown_config = {
   'MeanderingProgrammer/render-markdown.nvim',
+  url = 'https://github.com/MaxDillon/render-markdown.nvim.git',
+  branch = 'feat/table-cell-wrapping',
+  commit = '1da76861f4d2ae27bcb5fff2a81fae9aa1d68dda',
+  build = function(plugin)
+    local patch = vim.fn.stdpath('config') .. '/patches/render-markdown-table-wordwrap.patch'
+    local function git(args)
+      local cmd = { 'git', '-C', plugin.dir }
+      vim.list_extend(cmd, args)
+      vim.fn.system(cmd)
+      return vim.v.shell_error
+    end
+    -- A successful reverse-check means it is already applied, so re-running
+    -- this hook is a no-op.
+    if git({ 'apply', '--reverse', '--check', patch }) == 0 then
+      return
+    end
+    assert(git({ 'apply', '--3way', patch }) == 0,
+      'render-markdown word-wrap patch failed to apply: ' .. patch)
+  end,
   dependencies = is_nvim_10_plus and { 'nvim-treesitter/nvim-treesitter',
     'nvim-tree/nvim-web-devicons', -- optional, for icons
     'nvim-mini/mini.nvim' } or { 'nvim-tree/nvim-web-devicons', 'nvim-mini/mini.nvim' },
@@ -60,6 +89,8 @@ local render_markdown_config = {
     html = { enabled = false },
     latex = { enabled = false },
     yaml = { enabled = false },
+    -- Fit tables to the window; requires virtual lines, so 0.10+ only.
+    pipe_table = is_nvim_10_plus and { max_table_width = 1.0 } or nil,
   },
   config = function(_, opts)
 	  require('render-markdown').setup(opts)

@@ -1,0 +1,170 @@
+diff --git a/lua/render-markdown/render/markdown/table.lua b/lua/render-markdown/render/markdown/table.lua
+index a3f7a1b..26a2019 100644
+--- a/lua/render-markdown/render/markdown/table.lua
++++ b/lua/render-markdown/render/markdown/table.lua
+@@ -44,6 +44,71 @@ local Alignment = {
+ ---@field wrap boolean
+ ---@field col_widths integer[]
+ ---@field row_heights integer[]
++---@field row_segs render.md.mark.Line[][]
++---@field row_ranges render.md.Range[][][]
++
++---Split display segments into visual-width ranges, breaking at word boundaries
++---when possible and falling back to a hard break for words longer than a line.
++---Ranges are visual-width offsets so they can be fed to `Line:sub`, which slices
++---on display width and preserves per-segment highlight groups.
++---@param segments render.md.mark.Line
++---@param width integer
++---@return render.md.Range[]
++local function wrap_ranges(segments, width)
++    local text = ''
++    for _, seg in ipairs(segments) do
++        text = text .. seg[1]
++    end
++    local total = str.width(text)
++    if width <= 0 or total <= width then
++        return { { 1, math.max(width, total, 1) } }
++    end
++
++    -- Per-character widths so CJK / emoji break on character boundaries.
++    local chars, starts = {}, {}
++    local pos = 0
++    for _, ch in ipairs(vim.fn.split(text, '\\zs')) do
++        chars[#chars + 1] = ch
++        starts[#chars] = pos + 1
++        pos = pos + str.width(ch)
++    end
++    local function stop_of(k)
++        return (k < #chars) and (starts[k + 1] - 1) or total
++    end
++
++    local ranges = {} ---@type render.md.Range[]
++    local first = 1
++    while first <= #chars do
++        -- Last character that still fits on this visual line.
++        local last = first
++        while last < #chars and stop_of(last + 1) - starts[first] + 1 <= width do
++            last = last + 1
++        end
++        if last >= #chars then
++            ranges[#ranges + 1] = { starts[first], total }
++            break
++        end
++        -- Prefer breaking after the last space that fits.
++        local brk = nil
++        for k = last + 1, first + 1, -1 do
++            if chars[k] == ' ' then
++                brk = k
++                break
++            end
++        end
++        if brk then
++            ranges[#ranges + 1] = { starts[first], starts[brk] - 1 }
++            first = brk + 1
++            while first <= #chars and chars[first] == ' ' do
++                first = first + 1
++            end
++        else
++            ranges[#ranges + 1] = { starts[first], stop_of(last) }
++            first = last + 1
++        end
++    end
++    return ranges
++end
+ 
+ ---@class render.md.render.Table: render.md.Render
+ ---@field private config render.md.table.Config
+@@ -134,7 +199,13 @@ end
+ ---@private
+ ---@return render.md.table.Layout
+ function Render:compute_layout()
+-    local no_wrap = { wrap = false, col_widths = {}, row_heights = {} }
++    local no_wrap = {
++        wrap = false,
++        col_widths = {},
++        row_heights = {},
++        row_segs = {},
++        row_ranges = {},
++    }
+ 
+     -- Feature disabled when max_table_width is 0 (unset)
+     if self.config.max_table_width == 0 then
+@@ -227,19 +298,32 @@ function Render:compute_layout()
+     -- requires.  We must cover all of those screen lines with overlay marks,
+     -- so the effective height is max(rendered_lines, raw_screen_lines).
+     local row_heights = {} ---@type integer[]
++    local row_segs = {} ---@type render.md.mark.Line[][]
++    local row_ranges = {} ---@type render.md.Range[][][]
+     local needs_wrap = false
+     for r, row in ipairs(self.data.rows) do
+         local max_lines = 1
++        -- Segments and ranges are computed once here and reused by row_wrapped.
++        -- cell_segments is expensive (a treesitter capture lookup per character),
++        -- and sharing the result guarantees the height below and the slicing in
++        -- row_wrapped can never disagree, which would silently drop cell text.
++        local segs = {} ---@type render.md.mark.Line[]
++        local ranges = {} ---@type render.md.Range[][]
+         for i, col in ipairs(row.cells) do
+             local w = col_widths[i]
++            segs[i] = self:cell_segments(col.node)
++            ranges[i] = wrap_ranges(segs[i], w)
++            -- Height follows the ranges even if the guard below is false: an
++            -- injection can make the display wider than the raw cell text.
++            if #ranges[i] > max_lines then
++                max_lines = #ranges[i]
++            end
+             if w > 0 and col.width > w then
+-                local lines = math.ceil(col.width / w)
+-                if lines > max_lines then
+-                    max_lines = lines
+-                end
+                 needs_wrap = true
+             end
+         end
++        row_segs[r] = segs
++        row_ranges[r] = ranges
+         -- Raw buffer line screen-wrap: ceil(display_width_of_source / win_width)
+         local _, line = row.node:line('first', 0)
+         local raw_screen_lines = math.ceil(str.width(line) / win_width)
+@@ -254,7 +338,13 @@ function Render:compute_layout()
+         return no_wrap
+     end
+ 
+-    return { wrap = true, col_widths = col_widths, row_heights = row_heights }
++    return {
++        wrap = true,
++        col_widths = col_widths,
++        row_heights = row_heights,
++        row_segs = row_segs,
++        row_ranges = row_ranges,
++    }
+ end
+ 
+ ---@private
+@@ -555,11 +645,9 @@ function Render:row_wrapped(row, row_index)
+     local padding = self.config.padding
+     local spaces = math.max(str.spaces('start', row.node.text), row.node.start_col)
+ 
+-    -- Pre-compute display segments for each cell in this row
+-    local cell_segs = {} ---@type render.md.mark.Line[]
+-    for i, col in ipairs(row.cells) do
+-        cell_segs[i] = self:cell_segments(col.node)
+-    end
++    -- Display segments and word-wrap ranges, computed once in compute_layout.
++    local cell_segs = self.layout.row_segs[row_index] or {}
++    local cell_ranges = self.layout.row_ranges[row_index] or {}
+ 
+     local filler = self.config.filler
+     local function build_line(visual_line)
+@@ -571,7 +659,10 @@ function Render:row_wrapped(row, row_index)
+             line:pad(padding, filler)
+             local cell_line = Line.new(filler)
+             vim.list_extend(cell_line:get(), cell_segs[i] or {})
+-            local chunk = cell_line:sub(visual_line * col_width + 1, (visual_line + 1) * col_width)
++            -- Rows can be taller than a given cell has content for, so a missing
++            -- range is a blank continuation line rather than an error.
++            local range = (cell_ranges[i] or {})[visual_line + 1]
++            local chunk = range and cell_line:sub(range[1], range[2]) or Line.new(filler)
+             line:extend(chunk)
+             line:pad(col_width - chunk:width(), filler)
+             line:pad(padding, filler)
