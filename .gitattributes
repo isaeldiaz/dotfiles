@@ -1,0 +1,4 @@
+# Patch files must keep LF endings. With core.autocrlf=true (the default on
+# Windows) a checkout would rewrite them to CRLF and `git apply` then rejects
+# them, breaking the render-markdown build hook on a fresh clone.
+nvim/patches/*.patch -text
