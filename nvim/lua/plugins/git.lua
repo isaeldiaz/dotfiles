@@ -55,6 +55,21 @@ return {
       "DiffviewRefresh",
     },
     keys = {
+      -- Toggle: opens a diff against HEAD, or closes the view you're sitting in.
+      -- get_current_view() is tab-local, so pressing this from a non-diffview
+      -- tab opens a new view rather than closing an existing one.
+      {
+        "<leader>dd",
+        function()
+          local lib = require("diffview.lib")
+          if lib.get_current_view() then
+            vim.cmd("DiffviewClose")
+          else
+            vim.cmd("DiffviewOpen")
+          end
+        end,
+        desc = "Diffview: toggle",
+      },
       { "<leader>dv", "<cmd>DiffviewOpen<cr>",                desc = "Diffview: open (HEAD diff)" },
       { "<leader>dc", "<cmd>DiffviewClose<cr>",               desc = "Diffview: close" },
       { "<leader>dh", "<cmd>DiffviewFileHistory %<cr>",       desc = "Diffview: file history" },
@@ -63,6 +78,23 @@ return {
       { "<leader>df", "<cmd>DiffviewToggleFiles<cr>",         desc = "Diffview: toggle file panel" },
       { "<leader>dr", "<cmd>DiffviewRefresh<cr>",             desc = "Diffview: refresh" },
     },
+    -- Short aliases for the argument-taking commands (:DV master...HEAD).
+    -- Defined at startup so they exist before the plugin loads; invoking the
+    -- real command triggers lazy's cmd handler.
+    init = function()
+      local function alias(name, target)
+        vim.api.nvim_create_user_command(name, function(o)
+          vim.cmd(target .. " " .. o.args)
+        end, {
+          nargs = "*",
+          complete = function(lead)
+            return vim.fn.getcompletion(target .. " " .. lead, "cmdline")
+          end,
+        })
+      end
+      alias("DV", "DiffviewOpen")
+      alias("DVH", "DiffviewFileHistory")
+    end,
     config = function()
       require("diffview").setup({
         enhanced_diff_hl = true, -- richer diff highlights (requires nvim-treesitter)
