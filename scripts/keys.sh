@@ -105,6 +105,7 @@ cheatsheet() {
    key "leader c c/u"     "comment / uncomment"
    key "leader w / f / s" "easymotion: word, char, 2-char"
    key "leader q / Q"     "quit / quit all without saving"
+   key "Alt+Up/Down"      "move line or selection up/down"
    key "Ctrl+n"           "cycle line numbers"
    key "Alt+m"            "toggle mouse"
    note "Full live list: :Telescope keymaps"
@@ -118,10 +119,10 @@ cheatsheet() {
    note "y in nvim or tmux copy mode reaches the Windows clipboard via OSC 52."
 
    head "Known collisions   the layer above wins"
-   warn "Alt+j / Alt+k"    "WezTerm pane focus beats nvim move-line-up/down"
-   warn "F2 / F3"          "WezTerm palette/launcher beat nvim NERDTree"
-   warn "Ctrl+s"           "tmux prefix beats nvim save -- press it twice to save"
-   note "Only reachable by unbinding in WezTerm or rebinding in nvim."
+   warn "F2 / F3"          "WezTerm palette/launcher beat nvim NERDTree toggle"
+   note "                      and find. Unbind in WezTerm or rebind in nvim."
+   warn "Ctrl+s"           "tmux prefix beats nvim save. Already handled:"
+   note "                      send-prefix is bound, so Ctrl+s Ctrl+s saves."
 }
 
 dump_wezterm() {

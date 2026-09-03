@@ -93,11 +93,13 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
--- Move lines up/down
-keymap("n", "<A-j>", ":m .+1<CR>==", opts)
-keymap("n", "<A-k>", ":m .-2<CR>==", opts)
-keymap("v", "<A-j>", ":m '>+1<CR>gv=gv", opts)
-keymap("v", "<A-k>", ":m '<-2<CR>gv=gv", opts)
+-- Move lines up/down. Arrows rather than j/k: WezTerm binds Alt+j/Alt+k to pane
+-- focus and consumes them before they reach the wire, so the old bindings could
+-- never fire. Alt+Up/Down is unbound in both WezTerm and tmux.
+keymap("n", "<A-Down>", ":m .+1<CR>==", opts)
+keymap("n", "<A-Up>", ":m .-2<CR>==", opts)
+keymap("v", "<A-Down>", ":m '>+1<CR>gv=gv", opts)
+keymap("v", "<A-Up>", ":m '<-2<CR>gv=gv", opts)
 
 -- Clear search highlight
 keymap("n", "<Esc>", ":noh<CR>", { desc = "Clear search highlight" })
