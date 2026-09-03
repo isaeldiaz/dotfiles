@@ -6,7 +6,11 @@ local opt = vim.opt
 
 -- Terminal and GUI settings
 opt.termguicolors = true -- Enable true color support
-opt.mouse = vim.g.neovide and "a" or "" -- Enable mouse on Neovide, disable otherwise (toggle with <M-m>)
+-- Mouse always on. WezTerm's bypass_mouse_reporting_modifiers = 'SHIFT' means a
+-- plain drag is an nvim visual selection (yank with "y" -> OSC 52 -> Windows
+-- clipboard) while Shift+drag hands the event to WezTerm's own selection, so
+-- there is no longer any reason to disable it over SSH. Toggle with <M-m>.
+opt.mouse = "a"
 opt.mousehide = false -- Don't hide mouse when typing
 
 -- Indentation settings

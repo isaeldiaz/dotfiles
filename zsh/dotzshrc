@@ -1,10 +1,7 @@
-# Load machine-local feature flags (not committed to repo)
-[ -f ~/.dotfiles.local ] && . ~/.dotfiles.local
-
-# Auto-attach to tmux on SSH login (before loading oh-my-zsh for speed)
-if [ "${DOTFILES_TMUX_AUTO_ATTACH:-false}" = "true" ] && [ -n "$SSH_CONNECTION" ] && [ -z "$TMUX" ]; then
-  exec ~/dotfiles/scripts/tmux-auto-attach.sh
-fi
+# Machine-local feature flags + tmux auto-attach on SSH login. Shared with the
+# bash config so the interactivity guards live in exactly one place. Kept before
+# oh-my-zsh so an attaching session never pays for plugin loading.
+[ -f ~/dotfiles/bash/ssh-tmux.sh ] && . ~/dotfiles/bash/ssh-tmux.sh
 
 export ZSH="$HOME/.oh-my-zsh"
 

@@ -14,7 +14,7 @@ keymap("t", "<Esc>", "<C-\\><C-n>", opts)
 -- ============================================================================
 -- Mouse Support Toggle
 -- ============================================================================
-local mouse_enabled = vim.g.neovide or false
+local mouse_enabled = true -- matches opt.mouse = "a" in options.lua
 local function toggle_mouse_support()
   if mouse_enabled then
     vim.opt.mouse = ""
@@ -65,10 +65,15 @@ local function adjust_font_size(amount)
   end
 end
 
-keymap("n", "<C-ScrollWheelUp>", function() adjust_font_size(1) end, { desc = "Increase font size" })
-keymap("n", "<C-ScrollWheelDown>", function() adjust_font_size(-1) end, { desc = "Decrease font size" })
-keymap("i", "<C-ScrollWheelUp>", function() adjust_font_size(1) end, { desc = "Increase font size" })
-keymap("i", "<C-ScrollWheelDown>", function() adjust_font_size(-1) end, { desc = "Decrease font size" })
+-- GUI only: the fallback branch of adjust_font_size() runs GuiFont!, which does
+-- not exist in terminal Neovim (E492). That was dormant while mouse was off,
+-- but with mouse = "a" the terminal now actually receives Ctrl+wheel.
+if vim.g.neovide or vim.g.GuiLoaded then
+  keymap("n", "<C-ScrollWheelUp>", function() adjust_font_size(1) end, { desc = "Increase font size" })
+  keymap("n", "<C-ScrollWheelDown>", function() adjust_font_size(-1) end, { desc = "Decrease font size" })
+  keymap("i", "<C-ScrollWheelUp>", function() adjust_font_size(1) end, { desc = "Increase font size" })
+  keymap("i", "<C-ScrollWheelDown>", function() adjust_font_size(-1) end, { desc = "Decrease font size" })
+end
 
 -- Set initial font for Neovide
 if vim.g.neovide then
