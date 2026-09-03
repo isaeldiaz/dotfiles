@@ -69,3 +69,7 @@ clipipe() {
 }
 
 alias rp='realpath'
+
+# Cross-layer keybinding cheatsheet for the WezTerm/tmux/nvim stack.
+# `keys --full` appends each layer's own live dump.
+alias keys='~/dotfiles/scripts/keys.sh'
