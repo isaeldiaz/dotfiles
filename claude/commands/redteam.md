@@ -66,6 +66,8 @@ Give every agent this, filled in for its lens. State the intent *and where it ca
 > - If your lens turns up nothing, say so plainly and list what you checked. An empty report is a valid result.
 >
 > Return: a flat list of findings, worst first, each tagged `must-fix`, `worth-fixing`, or `nitpick`, plus a one-line "checked and clean" summary.
+>
+> Cap each finding at three lines. Findings only — no preamble, no summary of the diff, no closing recap.
 
 ## 3. Verify before you repeat
 
@@ -73,7 +75,7 @@ Findings from a fresh-context agent are leads, not truth. For each one:
 
 - Open the code and confirm it. Drop anything you cannot confirm.
 - Check its backing. If the agent asserted intent or a requirement, confirm it against the commit or the ticket. Drop it if the source does not say that.
-- Drop duplicates across agents; keep the clearest wording.
+- Drop duplicates across agents; rewrite each finding you keep in your own words, one sentence. Never paste an agent's wording into the report.
 - Drop anything that is a matter of taste.
 
 A short report of real problems beats a long one padded with maybes.
@@ -105,9 +107,20 @@ Intent per <commit sha | TICKET-123 | not stated>: <one line>
 
 Rules for the report itself — the same standard you are holding the code to:
 
+- Whole report under 30 lines: one sentence per finding, one line for the scenario, one line for the fix.
 - Plain language. Say "this crashes when the list is empty", not "insufficient defensive handling of the degenerate case".
 - No jargon where a normal word works. No restating the diff back to me.
 - Every statement traceable to code, git, or Jira, per **Sources of truth** above.
 - If nothing is wrong, say that in one line and stop. Do not invent findings to justify the review.
 
-Do not fix anything unless I ask. End by offering to apply the must-fixes.
+Do not fix anything unless I ask. End by offering to apply the must-fixes — in one line.
+
+## 5. If I ask you to apply the fixes
+
+The plain-language standard above applies to the code and text you write, not just to the report.
+
+- Smallest diff that closes the finding. No refactoring, renaming, or hardening I did not ask for.
+- New comments only where the *why* is genuinely non-obvious. One line, plain words. Never restate the code.
+- Do not add or expand README/doc sections, docstrings, or type commentary unless I ask.
+- Ticket and PR text: describe what needs doing and where to start. Do not dictate the implementation.
+- When done: one line per fix, `file:line`. No summary section, no recap of the review.
