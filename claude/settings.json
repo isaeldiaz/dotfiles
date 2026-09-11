@@ -11,5 +11,17 @@
   "attribution": {
     "commit": "",
     "pr": ""
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"Before your first reply to the user this session, invoke the noverbose skill (Skill tool, skill name: noverbose) and follow it for the whole session - minimal prose in chat and in documents.\"}}'"
+          }
+        ]
+      }
+    ]
   }
 }
