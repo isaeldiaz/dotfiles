@@ -64,6 +64,12 @@ fi
 ln -s $DOTFILES_DIR/tmux/tmux.conf $HOME/.tmux.conf
 
 ########## NEOVIM ##########
+# render-markdown wraps table cells using extmark features added in 0.11.
+nvim_version="$(nvim --version | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+if [ "$(printf '%s\n0.11.0\n' "$nvim_version" | sort -V | head -1)" != "0.11.0" ]; then
+  echo "nvim $nvim_version : markdown table wrapping needs >= 0.11"
+fi
+
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 ########## CLAUDE CODE ##########
