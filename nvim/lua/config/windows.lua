@@ -10,4 +10,3 @@ vim.opt.shellquote = ""
 vim.opt.shellpipe = "| Out-File -Encoding UTF8 %s"
 vim.opt.shellredir = "| Out-File -Encoding UTF8 %s"
 
-print("Windows-specific settings loaded")

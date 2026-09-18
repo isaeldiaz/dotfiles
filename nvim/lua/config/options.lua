@@ -89,10 +89,4 @@ if vim.fn.executable("rg") == 1 then
   opt.grepformat = "%f:%l:%c:%m"
 end
 
--- Enable filetype detection and indentation
-vim.cmd("filetype indent on")
-
--- Neovim-specific settings
-if vim.fn.has("nvim") == 1 then
-  opt.inccommand = "split" -- Show live preview of substitutions
-end
+opt.inccommand = "split" -- Show live preview of substitutions

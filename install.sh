@@ -70,8 +70,6 @@ if [ "$(printf '%s\n0.11.0\n' "$nvim_version" | sort -V | head -1)" != "0.11.0" 
   echo "nvim $nvim_version : markdown table wrapping needs >= 0.11"
 fi
 
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
 ########## CLAUDE CODE ##########
 mkdir -p "$HOME/.claude"
 for f in CLAUDE.md settings.json statusline-command.sh; do

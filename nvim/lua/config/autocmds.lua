@@ -36,23 +36,15 @@ autocmd("FileType", {
   desc = "Remove : from Perl word delimiters",
 })
 
--- Markdown settings: unfold all and enable treesitter if available
+-- Markdown settings: unfold all, and drop markdownError, which flags far too
+-- much as an error. Only present when native syntax is driving highlighting.
 autocmd("FileType", {
   pattern = "markdown",
   callback = function()
     vim.cmd("normal! zR") -- Unfold all
-    -- Enable treesitter on Neovim 0.10+
-    local nvim_version = vim.version()
-    local is_nvim_10_plus = nvim_version.major > 0 or (nvim_version.major == 0 and nvim_version.minor >= 10)
-    if is_nvim_10_plus then
-      -- Use vim.treesitter.start() to enable syntax highlighting
-      pcall(vim.treesitter.start)
-    else
-      vim.schedule(function()
-        vim.cmd("syntax clear markdownError") -- disable syntax error (Too conservative)
-      end)
-      vim.cmd("setlocal syntax=OFF")  -- Disable built-in syntax, Treesitter instead
-    end
+    vim.schedule(function()
+      pcall(vim.cmd, "syntax clear markdownError")
+    end)
   end,
   desc = "Markdown-specific settings",
 })
@@ -97,26 +89,14 @@ if not vim.g.neovide then
 end
 
 -- ============================================================================
--- Clipboard Integration (OSC52)
--- ============================================================================
-
-autocmd("TextYankPost", {
-  callback = function()
-    if vim.v.event.operator == "y" and vim.v.event.regname == "+" then
-      vim.cmd("OSCYankReg +")
-    end
-  end,
-  desc = "Copy to system clipboard using OSC52",
-})
-
--- ============================================================================
 -- General Quality of Life
 -- ============================================================================
 
--- Highlight on yank
+-- Highlight on yank. 0.11 renamed vim.highlight to vim.hl; keep both working.
+local hl = vim.hl or vim.highlight
 autocmd("TextYankPost", {
   callback = function()
-    vim.highlight.on_yank({ timeout = 200 })
+    hl.on_yank({ timeout = 200 })
   end,
   desc = "Briefly highlight yanked text",
 })

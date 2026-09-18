@@ -157,6 +157,8 @@ return {
   -- -------------------------------------------------------------------------
   {
     "lewis6991/gitsigns.nvim",
+    -- Current gitsigns requires 0.11; on older Neovim its setup() throws.
+    enabled = vim.fn.has("nvim-0.11") == 1,
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       signs = {
