@@ -73,3 +73,15 @@ alias rp='realpath'
 # Cross-layer keybinding cheatsheet for the WezTerm/tmux/nvim stack.
 # `keys --full` appends each layer's own live dump.
 alias keys='~/dotfiles/scripts/keys.sh'
+
+# Jump to a git worktree. With an argument, match its path; without one,
+# pick from the list with fzf.
+wt() {
+  local d
+  if [[ -n "$1" ]]; then
+    d=$(git worktree list --porcelain | awk '/^worktree /{print $2}' | grep -- "$1" | head -1)
+  else
+    d=$(git worktree list | fzf --height 40% --reverse | awk '{print $1}')
+  fi
+  [[ -n "$d" ]] && cd "$d"
+}

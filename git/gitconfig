@@ -238,6 +238,24 @@
 	wp = show -p
 	wr = show -p --no-color
 	#############
+	wt = worktree
+	wtl = worktree list
+	wta = worktree add
+	wtr = worktree remove
+	wtrf = worktree remove --force
+	wtp = worktree prune -v
+	wtmv = worktree move
+	wtlk = worktree lock
+	wtul = worktree unlock
+	# New branch in a sibling dir:  git wtb feature/x  ->  ../<repo>-feature-x
+	wtb = "!f() { t=$(git rev-parse --show-toplevel); git worktree add -b \"$1\" \"$t/../$(basename $t)-$(echo $1 | tr '/' '-')\" ${2:-HEAD}; }; f"
+	# Existing branch, same layout:  git wtx origin/fix-123
+	wtx = "!f() { t=$(git rev-parse --show-toplevel); b=${1#origin/}; git worktree add \"$t/../$(basename $t)-$(echo $b | tr '/' '-')\" \"$1\"; }; f"
+	# Drop the worktree and the branch it had checked out
+	wtd = "!f() { b=$(git -C \"$1\" rev-parse --abbrev-ref HEAD); git worktree remove \"$1\" && git branch -d \"$b\"; }; f"
+	# Paths only, for scripting
+	wtlp = !git worktree list --porcelain | awk '/^worktree /{print $2}'
+	#############
 	svnr = svn rebase
 	svnd = svn dcommit
 	svnl = svn log --oneline --show-commit
