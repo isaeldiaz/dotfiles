@@ -60,24 +60,29 @@ opt.undodir = vim.fn.stdpath("data") .. "/undo"
 opt.updatetime = 250 -- Faster completion
 opt.timeoutlen = 300 -- Faster key sequence completion
 
--- Clipboard: use OSC 52 so yanks reach the host OS clipboard over SSH,
--- both with and without tmux (tmux forwards OSC 52 via set-clipboard on).
--- Falls back to standard providers on Neovide or when OSC 52 is unavailable.
+-- Clipboard: only over SSH, where there is no local clipboard tool, use OSC 52
+-- so yanks reach the host OS clipboard (tmux forwards it via set-clipboard on).
+-- Locally the standard providers already do, so leave vim.g.clipboard alone.
 opt.clipboard = "unnamedplus"
-if not vim.g.neovide and vim.fn.has("nvim-0.10") == 1 then
+if (vim.env.SSH_TTY or vim.env.SSH_CONNECTION) and not vim.g.neovide and vim.fn.has("nvim-0.10") == 1 then
   local ok, osc52 = pcall(require, "vim.ui.clipboard.osc52")
   if ok then
+    -- OSC 52 paste requires a terminal round-trip that hangs over plain SSH, so
+    -- read back the last yank instead (returning nil makes every `p` fail with
+    -- "clipboard: provider returned invalid data"). Use the terminal's own
+    -- paste, Ctrl+Shift+V in WezTerm, for text copied outside Neovim.
+    local function paste()
+      return vim.split(vim.fn.getreg('"'), "\n")
+    end
     vim.g.clipboard = {
       name = "OSC 52",
       copy = {
         ["+"] = osc52.copy("+"),
         ["*"] = osc52.copy("*"),
       },
-      -- OSC 52 paste requires a terminal round-trip that hangs over plain SSH.
-      -- Use the terminal's own paste instead: Ctrl+Shift+V in WezTerm.
       paste = {
-        ["+"] = function() return nil end,
-        ["*"] = function() return nil end,
+        ["+"] = paste,
+        ["*"] = paste,
       },
     }
   end
