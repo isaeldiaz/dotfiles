@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# md2rm: convert Markdown to EPUB and PDF sized for the reMarkable 2 and write
+# both to the OneDrive folder the tablet imports from.
+set -euo pipefail
+
+[ $# -ge 1 ] || { echo "usage: md2rm FILE.md..." >&2; exit 1; }
+
+here=$(dirname "$(realpath "${BASH_SOURCE[0]}")")
+sync_dir=${RM_SYNC_DIR:-$HOME/OneDrive/reMarkable}
+mkdir -p "$sync_dir"
+
+# Outputs are named after the input file only, so refuse inputs that would collide.
+declare -A seen
+for f in "$@"; do
+  name=$(basename "$f")
+  name=${name%.*}
+  [ -z "${seen[$name]:-}" ] || { echo "md2rm: $f and ${seen[$name]} both write $name.*" >&2; exit 1; }
+  seen[$name]=$f
+done
+
+for f in "$@"; do
+  src=$(realpath "$f")
+  name=$(basename "$src")
+  name=${name%.*}
+  for format in epub pdf; do
+    out=$sync_dir/$name.$format
+    # The OneDrive client skips ~* files and the rename is atomic, so it never
+    # uploads a partial file.
+    tmp=$sync_dir/~$name.$format
+    args=(
+      "$src" -o "$tmp"
+      --resource-path="$(dirname "$src")"
+      --lua-filter="$here/md2rm.lua"
+    )
+    if [ "$format" = pdf ]; then
+      # rM2 screen: 1404x1872 px at 226 ppi = 157x210 mm
+      args+=(
+        --pdf-engine=lualatex
+        -V geometry:paperwidth=157mm,paperheight=210mm,margin=8mm
+        -V fontsize=11pt
+        -V mainfont="DejaVu Serif"
+        -V sansfont="DejaVu Sans"
+        -V monofont="DejaVu Sans Mono"
+        -V colorlinks
+        --include-in-header="$here/md2rm.tex"
+      )
+    else
+      args+=(--css="$here/md2rm.css")
+    fi
+    pandoc "${args[@]}" || { rm -f "$tmp"; exit 1; }
+    mv "$tmp" "$out"
+    echo "$out"
+  done
+done

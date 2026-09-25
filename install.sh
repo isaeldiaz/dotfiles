@@ -1,7 +1,7 @@
 #!/bin/bash
 
 required_tools=("curl" "git" "nvim" "tmux" "rg" "fzf" "keepassxc-cli" "jq")
-optional_tools=("zsh" "wget")
+optional_tools=("zsh" "wget" "pandoc" "magick" "rsvg-convert" "mmdc" "lualatex")
 
 for tool in "${required_tools[@]}"; do
   if ! command -v "$tool" &> /dev/null; then
@@ -69,6 +69,10 @@ nvim_version="$(nvim --version | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
 if [ "$(printf '%s\n0.11.0\n' "$nvim_version" | sort -V | head -1)" != "0.11.0" ]; then
   echo "nvim $nvim_version : markdown table wrapping needs >= 0.11"
 fi
+
+########## SCRIPTS ##########
+mkdir -p "$HOME/.local/bin"
+ln -sfn "$DOTFILES_DIR/scripts/md2rm" "$HOME/.local/bin/md2rm"
 
 ########## CLAUDE CODE ##########
 mkdir -p "$HOME/.claude"

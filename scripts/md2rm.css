@@ -1,0 +1,26 @@
+img {
+  display: block;
+  max-width: 100%;
+  max-height: 90vh;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+figure { margin: 0.5em 0; page-break-inside: avoid; }
+body { overflow-wrap: break-word; }
+pre { white-space: pre-wrap; font-size: 0.8em; }
+/* Pandoc's highlighting CSS keeps long lines and scrolls, which the tablet cannot do. */
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline; }
+table { border-collapse: collapse; margin: 0.5em 0; font-size: 0.9em; }
+th, td {
+  border-bottom: 1px solid #888;
+  padding: 0.2em 0.4em;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+th { border-bottom: 2px solid #000; }
+table.wrap { width: 100%; table-layout: fixed; }
+.small table { font-size: 0.75em; }
