@@ -84,3 +84,9 @@ done
 { [ -e "$HOME/.claude/commands" ] || [ -L "$HOME/.claude/commands" ]; } && mv "$HOME/.claude/commands" "$HOME/.claude/commands.backup"
 ln -s "$DOTFILES_DIR/claude/commands" "$HOME/.claude/commands"
 
+# User-level skills, linked one by one: ~/.claude/skills also holds skills from other sources
+mkdir -p "$HOME/.claude/skills"
+for d in "$DOTFILES_DIR"/claude/skills/*/; do
+  [ -d "$d" ] || continue
+  ln -sfn "${d%/}" "$HOME/.claude/skills/$(basename "$d")"
+done

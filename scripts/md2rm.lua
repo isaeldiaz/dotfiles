@@ -6,6 +6,42 @@
 local max_w = os.getenv('RM_MAX_W') or '2808'
 local count = 0
 
+-- Layout warnings, printed once (on the PDF pass) for claude/skills/remarkable.
+-- Code wider than this many monospace characters wraps; diagrams wider than
+-- this many px have labels under 8 pt at the 141 mm text width.
+local code_cols, diagram_px = 60, 800
+
+local function warn(msg)
+  if FORMAT == 'latex' then io.stderr:write('md2rm: ' .. msg .. '\n') end
+end
+
+local function snippet(text)
+  local first = text:match('^%s*([^\n]*)')
+  if utf8.len(first) and utf8.len(first) > 30 then
+    first = first:sub(1, utf8.offset(first, 31) - 1) .. '...'
+  end
+  return '"' .. first .. '"'
+end
+
+-- Natural width in px from an SVG's viewBox or width, or from a PDF page
+-- (points, 0.75 per px).
+local function natural_px(data, mime)
+  if mime == 'application/pdf' then
+    local w = data:match('/MediaBox%s*%[%s*[%d.]+%s+[%d.]+%s+([%d.]+)')
+    return w and tonumber(w) / 0.75
+  end
+  local w = data:match('viewBox="%s*[-%d.]+[%s,]+[-%d.]+[%s,]+([%d.]+)')
+    or data:match('<svg[^>]-%swidth="([%d.]+)')
+  return w and tonumber(w)
+end
+
+local function check_width(what, data, mime)
+  local w = natural_px(data, mime)
+  if w and w > diagram_px then
+    warn(('%s is %d px wide (max %d)'):format(what, math.floor(w), diagram_px))
+  end
+end
+
 local function add(data, ext, mime)
   count = count + 1
   local name = ('md2rm/%03d.%s'):format(count, ext)
@@ -58,7 +94,8 @@ local function mermaid(code)
     fh:close()
     local args = {'-q', '-i', input, '-o', output, '-b', 'white', '-t', 'neutral'}
     if FORMAT == 'latex' then
-      table.insert(args, '--pdfFit')
+      -- A wide viewport keeps the natural size; mmdc's default 800 px squeezes wider ones.
+      for _, a in ipairs({'--pdfFit', '-w', '4000'}) do table.insert(args, a) end
     else
       for _, a in ipairs({'-w', '1404', '-s', '2'}) do table.insert(args, a) end
     end
@@ -69,10 +106,11 @@ local function mermaid(code)
     return data
   end)
   if not ok then
-    io.stderr:write('md2rm: mermaid block left as code: ' .. tostring(result) .. '\n')
+    warn('mermaid block ' .. snippet(code) .. ' left as code: ' .. tostring(result))
     return nil
   end
   if FORMAT == 'latex' then
+    check_width('mermaid block ' .. snippet(code), result, 'application/pdf')
     return figure(add(result, 'pdf', 'application/pdf'))
   end
   return figure(png(result))
@@ -99,7 +137,10 @@ local function drawing(text)
     math.ceil(cols * size * 0.602 + 2 * size), math.ceil(size * 1.16 * #lines + 1.5 * size),
     size, table.concat(lines, '\n'))
   -- Scale to the width the text would take at body size (about 60 columns per page).
-  local width = math.min(100, math.ceil(cols / 60 * 100)) .. '%'
+  if cols > code_cols then
+    warn(('drawing %s is %d columns wide (max %d)'):format(snippet(text), cols, code_cols))
+  end
+  local width = math.min(100, math.ceil(cols / code_cols * 100)) .. '%'
   return figure(from_svg(svg), pandoc.Attr('', {}, {width = width}))
 end
 
@@ -169,6 +210,14 @@ local function fit_table(tbl)
   if widths[1] ~= pandoc.ColWidthDefault then tbl.classes:insert('wrap') end
 
   if layout == 'normal' then return tbl end
+  local head = {}
+  for i, cell in ipairs(tbl.head.rows[1] and tbl.head.rows[1].cells or {}) do
+    if i > 2 then break end
+    table.insert(head, pandoc.utils.stringify(cell.contents))
+  end
+  warn(('table "%s | ..." (%d columns, %d rows) needs %s'):format(
+    table.concat(head, ' | '), n, #table_rows(tbl),
+    layout == 'landscape' and 'a landscape page' or 'a smaller font'))
   if layout == 'landscape' then
     return {pandoc.RawBlock('latex', '\\begin{landscape}\\footnotesize'), tbl,
             pandoc.RawBlock('latex', '\\end{landscape}')}
@@ -219,16 +268,25 @@ return {
       block.text = block.text:gsub('[%z\1-\8\11-\31]', '')
       if block.classes:includes('mermaid') then return mermaid(block.text) end
       if is_drawing(block) then return drawing(block.text) end
+      local longest = 0
+      for line in block.text:gmatch('[^\n]+') do
+        longest = math.max(longest, utf8.len(line) or #line)
+      end
+      if longest > code_cols then
+        warn(('code block %s has a %d-character line (max %d)'):format(
+          snippet(block.text), longest, code_cols))
+      end
       return block
     end,
     Table = fit_table,
     Image = function(img)
       local ok, mime, data = pcall(pandoc.mediabag.fetch, img.src)
       if not ok or not data then
-        io.stderr:write('md2rm: image left as is: ' .. tostring(ok and img.src or mime) .. '\n')
+        warn('image left as is: ' .. tostring(ok and img.src or mime))
         return nil
       end
       if mime == 'image/svg+xml' then
+        check_width('image ' .. img.src, data, mime)
         local path
         for _, dir in ipairs(PANDOC_STATE.resource_path) do
           local p = pandoc.path.join({dir, img.src})
