@@ -60,31 +60,46 @@ opt.undodir = vim.fn.stdpath("data") .. "/undo"
 opt.updatetime = 250 -- Faster completion
 opt.timeoutlen = 300 -- Faster key sequence completion
 
--- Clipboard: only over SSH, where there is no local clipboard tool, use OSC 52
--- so yanks reach the host OS clipboard (tmux forwards it via set-clipboard on).
--- Locally the standard providers already do, so leave vim.g.clipboard alone.
-opt.clipboard = "unnamedplus"
-if (vim.env.SSH_TTY or vim.env.SSH_CONNECTION) and not vim.g.neovide and vim.fn.has("nvim-0.10") == 1 then
+-- Clipboard. Only couple the unnamed register to the OS clipboard when a real
+-- local clipboard is present (an X11/Wayland display, or Neovide). Over SSH --
+-- or on any headless box -- there is no display, so xclip/wl-paste cannot
+-- work; with 'clipboard=unnamedplus' every `p` then round-trips through a
+-- broken provider that returns plain lines, silently destroying blockwise
+-- registers. (Plain Vim works because its default 'clipboard' is empty, so
+-- `p` always reads the unnamed register directly.) Keep the unnamed register
+-- local in that case and mirror yanks to "+" so OSC 52 still carries them to
+-- the host clipboard (tmux forwards it via set-clipboard on). Text copied
+-- outside Neovim is pasted with the terminal's own Ctrl+Shift+V.
+local has_display = (vim.env.DISPLAY or vim.env.WAYLAND_DISPLAY) ~= nil
+local over_ssh = (vim.env.SSH_TTY or vim.env.SSH_CONNECTION) ~= nil
+local use_unnamedplus = has_display or vim.g.neovide
+opt.clipboard = use_unnamedplus and "unnamedplus" or ""
+if over_ssh and not use_unnamedplus and vim.fn.has("nvim-0.10") == 1 then
   local ok, osc52 = pcall(require, "vim.ui.clipboard.osc52")
   if ok then
-    -- OSC 52 paste requires a terminal round-trip that hangs over plain SSH, so
-    -- read back the last yank instead (returning nil makes every `p` fail with
-    -- "clipboard: provider returned invalid data"). Use the terminal's own
-    -- paste, Ctrl+Shift+V in WezTerm, for text copied outside Neovim.
-    local function paste()
-      return vim.split(vim.fn.getreg('"'), "\n")
-    end
     vim.g.clipboard = {
       name = "OSC 52",
       copy = {
         ["+"] = osc52.copy("+"),
         ["*"] = osc52.copy("*"),
       },
+      -- Only reached by an explicit `"+p`/`"*p`. Read back the last yank,
+      -- keeping its register type, instead of a terminal round-trip.
       paste = {
-        ["+"] = paste,
-        ["*"] = paste,
+        ["+"] = function() return vim.split(vim.fn.getreg('"'), "\n"), vim.fn.getregtype('"') end,
+        ["*"] = function() return vim.split(vim.fn.getreg('"'), "\n"), vim.fn.getregtype('"') end,
       },
     }
+    vim.api.nvim_create_autocmd("TextYankPost", {
+      callback = function()
+        local t = vim.v.event.regtype
+        if t == "" then
+          return
+        end
+        vim.fn.setreg("+", vim.split(vim.fn.getreg('"'), "\n", { plain = true }), t)
+      end,
+      desc = "Mirror yanks to host clipboard over SSH",
+    })
   end
 end
 
