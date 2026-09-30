@@ -95,9 +95,15 @@ done
 { [ -e "$HOME/.claude/commands" ] || [ -L "$HOME/.claude/commands" ]; } && mv "$HOME/.claude/commands" "$HOME/.claude/commands.backup"
 ln -s "$DOTFILES_DIR/claude/commands" "$HOME/.claude/commands"
 
-# User-level skills, linked one by one: ~/.claude/skills also holds skills from other sources
+# User-level skills, linked one by one: ~/.claude/skills also holds skills from other sources.
+# WORK_DOTFILES_DIR is a private repo for anything naming an employer, colleagues,
+# internal hosts or ticket keys - none of that belongs in this public repo.
 mkdir -p "$HOME/.claude/skills"
-for d in "$DOTFILES_DIR"/claude/skills/*/; do
-  [ -d "$d" ] || continue
-  ln -sfn "${d%/}" "$HOME/.claude/skills/$(basename "$d")"
+WORK_DOTFILES_DIR="${WORK_DOTFILES_DIR:-$HOME/dotfiles-work}"
+for skills_dir in "$DOTFILES_DIR/claude/skills" "$WORK_DOTFILES_DIR/claude/skills"; do
+  [ -d "$skills_dir" ] || continue
+  for d in "$skills_dir"/*/; do
+    [ -d "$d" ] || continue
+    ln -sfn "${d%/}" "$HOME/.claude/skills/$(basename "$d")"
+  done
 done
