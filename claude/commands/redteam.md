@@ -9,11 +9,14 @@ Target: `$ARGUMENTS` — if empty, review the uncommitted working tree plus any 
 
 ## Sources of truth
 
-Everything in this review — the stated intent, every finding, every line of the final report — must be traceable to one of three places:
+Everything in this review — the stated intent, every finding, every line of the final report — must be traceable to one of four places:
 
 1. **The code** (the diff and the surrounding files).
 2. **Git history** (commit messages, blame, prior commits touching the same code).
 3. **Jira** (ticket text, acceptance criteria, comments). For ULY tickets use the `uly-jira` skill; quote what the ticket actually says.
+4. **Reference documentation**: tool manuals, vendor and foundry documents, standards,
+   wherever they are on disk. Cite file and section. A claim of common practice with no
+   document behind it may be reported only as "unverified: confirm against <document>".
 
 Nothing else may enter the report. In particular: no facts from our chat, no wording lifted from the prompt that produced the change, no "the author intended…" that came from a subagent's reasoning rather than from a source above. If a claim matters and you cannot point at code, a commit, or a ticket line that supports it, either go find that support or leave the claim out.
 
@@ -35,16 +38,17 @@ Pick the number from the size of the change, not from habit:
 
 | Change | Agents |
 |---|---|
-| Small — one file, under ~50 changed lines | 1 agent, all four lenses |
+| Small — one file, under ~50 changed lines | 1 agent, all five lenses |
 | Medium — a few files, one subsystem | 2–3 agents |
-| Large — cross-cutting, new subsystem, public API | 4 agents, one per lens |
+| Large — cross-cutting, new subsystem, public API | 5 agents, one per lens |
 
-The four lenses:
+The five lenses:
 
 1. **Correctness vs. intent** — does the code actually do the stated thing? Hunt for wrong conditions, off-by-one, unhandled errors, null/empty/zero cases, wrong types, resource leaks, concurrency and ordering bugs, and behaviour that changed for existing callers.
 2. **Simplicity** — is this the smallest code that solves the problem? Hunt for abstraction with one user, options nobody asked for, hand-rolled versions of something already in the repo or the stdlib, dead code, redundant state, and control flow that needs a second read to follow.
 3. **Comments and naming** — do the comments earn their place? Flag comments that restate the code, stale comments, jargon where a plain word works, missing "why" on anything non-obvious, and names that mislead.
 4. **Blast radius** — what else should have changed and did not? Callers, tests, error messages, config, docs, migrations, build files.
+5. **Intent and domain** — is the stated intent itself right? Hunt for a ticket that contradicts itself, acceptance criteria that restate the code's values rather than an outcome, values that disagree with the reference documentation, and inherited code or settings that this change makes take effect for the first time.
 
 ### The prompt each agent gets
 
@@ -60,7 +64,7 @@ Give every agent this, filled in for its lens. State the intent *and where it ca
 >
 > Rules:
 > - Every finding needs a `file:line`, one sentence saying what is wrong, and a concrete scenario where it bites (specific inputs or state → what goes wrong). If you cannot write the scenario, drop the finding.
-> - Every claim must be backed by code, a commit, or ticket text. Cite which. Do not assert intent, history, or requirements that you cannot point to. Guessing is worse than saying "not recorded".
+> - Every claim must be backed by code, a commit, ticket text, or reference documentation. Cite which. Do not assert intent, history, or requirements that you cannot point to. Guessing is worse than saying "not recorded".
 > - No style nits, no formatting, no "consider maybe". No praise.
 > - Do not edit any file. Review only.
 > - If your lens turns up nothing, say so plainly and list what you checked. An empty report is a valid result.
@@ -110,7 +114,7 @@ Rules for the report itself — the same standard you are holding the code to:
 - Whole report under 30 lines: one sentence per finding, one line for the scenario, one line for the fix.
 - Plain language. Say "this crashes when the list is empty", not "insufficient defensive handling of the degenerate case".
 - No jargon where a normal word works. No restating the diff back to me.
-- Every statement traceable to code, git, or Jira, per **Sources of truth** above.
+- Every statement traceable to code, git, Jira, or reference documentation, per **Sources of truth** above.
 - If nothing is wrong, say that in one line and stop. Do not invent findings to justify the review.
 
 Do not fix anything unless I ask. End by offering to apply the must-fixes — in one line.
@@ -122,5 +126,5 @@ The plain-language standard above applies to the code and text you write, not ju
 - Smallest diff that closes the finding. No refactoring, renaming, or hardening I did not ask for.
 - New comments only where the *why* is genuinely non-obvious. One line, plain words. Never restate the code.
 - Do not add or expand README/doc sections, docstrings, or type commentary unless I ask.
-- Ticket and PR text: describe what needs doing and where to start. Do not dictate the implementation.
+- Ticket text: describe what needs doing and where to start. Do not dictate the implementation.
 - When done: one line per fix, `file:line`. No summary section, no recap of the review.

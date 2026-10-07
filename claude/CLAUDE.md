@@ -44,6 +44,8 @@ few minutes.
   not in the room. No escape clauses ("...or the regression is recorded and
   accepted"), and no "X is clean" without naming the baseline it is clean
   against.
+- A criterion states the outcome the work must achieve, not the values the
+  implementation chose; one that restates the code passes whatever the code says.
 - An epic split so that one branch may prove infeasible must say that a "no" on
   that branch is a successful outcome, not a failure.
 
