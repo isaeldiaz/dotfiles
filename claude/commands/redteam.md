@@ -13,7 +13,7 @@ Everything in this review — the stated intent, every finding, every line of th
 
 1. **The code** (the diff and the surrounding files).
 2. **Git history** (commit messages, blame, prior commits touching the same code).
-3. **Jira** (ticket text, acceptance criteria, comments). For ULY tickets use the `uly-jira` skill; quote what the ticket actually says.
+3. **The issue tracker** (ticket text, acceptance criteria, comments). Read it with the project's ticket tooling; quote what the ticket actually says.
 4. **Reference documentation**: tool manuals, vendor and foundry documents, standards,
    wherever they are on disk. Cite file and section. A claim of common practice with no
    document behind it may be reported only as "unverified: confirm against <document>".
@@ -28,7 +28,8 @@ Before spawning anything, get the facts:
 
 - `git status`, and the right diff for the target (`git diff`, `git diff <base>...HEAD`, or `gh pr diff <n>`).
 - Read the changed files in full, not just the diff hunks — a diff hides the code it breaks.
-- Establish what the change is *supposed* to do from the commit messages, the branch name, and the linked Jira ticket. Record where you got it from; you will pass that provenance to the reviewers.
+- Establish what the change is *supposed* to do from the commit messages, the branch name, and the linked ticket. Record where you got it from; you will pass that provenance to the reviewers.
+- For an RTL diff, find the repo's RTL coding guidelines and the module's design specification, and pass both paths to every reviewer.
 
 ## 2. Spawn the reviewers
 
@@ -42,13 +43,18 @@ Pick the number from the size of the change, not from habit:
 | Medium — a few files, one subsystem | 2–3 agents |
 | Large — cross-cutting, new subsystem, public API | 5 agents, one per lens |
 
-The five lenses:
+If the diff touches RTL, add lens 6: folded into the single agent for a small change, its own agent otherwise.
+
+The lenses:
 
 1. **Correctness vs. intent** — does the code actually do the stated thing? Hunt for wrong conditions, off-by-one, unhandled errors, null/empty/zero cases, wrong types, resource leaks, concurrency and ordering bugs, and behaviour that changed for existing callers.
 2. **Simplicity** — is this the smallest code that solves the problem? Hunt for abstraction with one user, options nobody asked for, hand-rolled versions of something already in the repo or the stdlib, dead code, redundant state, and control flow that needs a second read to follow.
+   - Every new input, parameter or function argument: list every instance or call site (grep the repo) and what it passes. Flag it when every non-test caller passes the same value, or a value the callee already has (a parameter, a constant, another input). A test bench driving it is not a user.
 3. **Comments and naming** — do the comments earn their place? Flag comments that restate the code, stale comments, jargon where a plain word works, missing "why" on anything non-obvious, and names that mislead.
 4. **Blast radius** — what else should have changed and did not? Callers, tests, error messages, config, docs, migrations, build files.
 5. **Intent and domain** — is the stated intent itself right? Hunt for a ticket that contradicts itself, acceptance criteria that restate the code's values rather than an outcome, values that disagree with the reference documentation, and inherited code or settings that this change makes take effect for the first time.
+   - Logic or checks that duplicate a responsibility already assigned elsewhere. Read the module's design specification (its stated assumptions, register descriptions, firmware rules) and the SVA of instantiated submodules. Flag hardware that protects against what the spec leaves to firmware, and assertions that restate one a submodule already has.
+6. **Hardware cost** (RTL only) — hunt for arithmetic on a run-time signal (`/`, `%`, `*`), wide comparators or adders added for safety, and logic built in hardware that could be computed once at elaboration from a parameter.
 
 ### The prompt each agent gets
 
@@ -58,9 +64,10 @@ Give every agent this, filled in for its lens. State the intent *and where it ca
 >
 > Target: <exact git command(s) to get the diff>.
 > Intent: <what the change claims to do> — source: <commit sha / ticket key / "not stated anywhere">.
+> References (RTL only): <coding guidelines path>, <module design specification path>.
 > Your lens: <lens name and its bullet list from above>.
 >
-> Read the changed files in full and the code around them — callers, tests, similar existing code. Check git history for the same lines. Read the linked Jira ticket if there is one. Then report only findings you have verified in those sources.
+> Read the changed files in full and the code around them — callers, tests, similar existing code. Check git history for the same lines. Read the linked ticket if there is one. Then report only findings you have verified in those sources.
 >
 > Rules:
 > - Every finding needs a `file:line`, one sentence saying what is wrong, and a concrete scenario where it bites (specific inputs or state → what goes wrong). If you cannot write the scenario, drop the finding.
@@ -114,7 +121,7 @@ Rules for the report itself — the same standard you are holding the code to:
 - Whole report under 30 lines: one sentence per finding, one line for the scenario, one line for the fix.
 - Plain language. Say "this crashes when the list is empty", not "insufficient defensive handling of the degenerate case".
 - No jargon where a normal word works. No restating the diff back to me.
-- Every statement traceable to code, git, Jira, or reference documentation, per **Sources of truth** above.
+- Every statement traceable to code, git, the issue tracker, or reference documentation, per **Sources of truth** above.
 - If nothing is wrong, say that in one line and stop. Do not invent findings to justify the review.
 
 Do not fix anything unless I ask. End by offering to apply the must-fixes — in one line.

@@ -1,17 +1,9 @@
 {
-  "model": "opus",
-  "enableWorkflows": false,
-  "statusLine": {
-    "type": "command",
-    "command": "bash ~/.claude/statusline-command.sh"
-  },
-  "tui": "default",
-  "editorMode": "vim",
-  "voiceEnabled": true,
   "attribution": {
     "commit": "",
     "pr": ""
   },
+  "model": "opus",
   "hooks": {
     "SessionStart": [
       {
@@ -23,5 +15,13 @@
         ]
       }
     ]
-  }
+  },
+  "enableWorkflows": false,
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
+  "tui": "default",
+  "editorMode": "vim",
+  "voiceEnabled": true
 }
