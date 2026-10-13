@@ -70,8 +70,12 @@ opt.timeoutlen = 300 -- Faster key sequence completion
 -- local in that case and mirror yanks to "+" so OSC 52 still carries them to
 -- the host clipboard (tmux forwards it via set-clipboard on). Text copied
 -- outside Neovim is pasted with the terminal's own Ctrl+Shift+V.
+-- A WezTerm SSH domain with multiplexing = 'WezTerm' spawns panes from
+-- wezterm-mux-server, which scrubs SSH_* from the environment, so treat that
+-- as remote too.
 local has_display = (vim.env.DISPLAY or vim.env.WAYLAND_DISPLAY) ~= nil
 local over_ssh = (vim.env.SSH_TTY or vim.env.SSH_CONNECTION) ~= nil
+  or (vim.env.WEZTERM_EXECUTABLE or ""):match("wezterm%-mux%-server$") ~= nil
 local use_unnamedplus = has_display or vim.g.neovide
 opt.clipboard = use_unnamedplus and "unnamedplus" or ""
 if over_ssh and not use_unnamedplus and vim.fn.has("nvim-0.10") == 1 then
