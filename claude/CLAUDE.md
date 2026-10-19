@@ -18,6 +18,26 @@ mid-session, replace the old version — don't document the change.
 Git history already holds the archaeology. Keep a rationale inline only when
 someone would otherwise reintroduce the bug — then one line, saying what breaks.
 
+## Reports are self-contained
+
+A report must be understandable on its own. References exist to verify a claim,
+never to understand it. The unit is the whole report: a chapter may lean on
+another chapter of the same report, not on an outside document.
+
+- Define every technical term, structure and acronym at first use, in plain
+  words. "Entry" says entry of what (a directory, a snoop filter, a KV cache).
+- Every number names its quantity and baseline: "3× fewer snoop messages per
+  remote read than a full-map directory", not "a 3× reduction". Percentages say
+  percent of what.
+- A paraphrased result says what was done, on what, and what was measured, so
+  the reader can judge it without opening the source.
+- Brevity rules (e.g. a low-verbosity mode) never remove a definition or a
+  baseline. Cut elsewhere.
+
+Before delivering, re-read each paragraph as a reader who has none of the
+sources open. Every term or figure they could not explain back gets defined or
+qualified in place.
+
 ## Work items and tickets
 
 Applies to any tracker. The reader is someone who was not in the room and has a
