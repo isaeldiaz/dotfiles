@@ -18,6 +18,13 @@ mid-session, replace the old version — don't document the change.
 Git history already holds the archaeology. Keep a rationale inline only when
 someone would otherwise reintroduce the bug — then one line, saying what breaks.
 
+## Readable over compact
+
+When two ways of writing the same code perform the same (same speed, memory, or
+for hardware, same area and timing), write the one that is easier to read. Give
+intermediate values names instead of packing them into one long expression.
+Compactness alone is not a reason to choose a form.
+
 ## Reports are self-contained
 
 A report must be understandable on its own. References exist to verify a claim,
