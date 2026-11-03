@@ -70,6 +70,12 @@ if [ "$(printf '%s\n0.11.0\n' "$nvim_version" | sort -V | head -1)" != "0.11.0" 
   echo "nvim $nvim_version : markdown table wrapping needs >= 0.11"
 fi
 
+########## GIT ##########
+{ [ -e "$HOME/.gitconfig" ] || [ -L "$HOME/.gitconfig" ]; } && mv "$HOME/.gitconfig" "$HOME/.gitconfig.backup"
+ln -s "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
+mkdir -p "$HOME/.config/git"
+ln -sfn "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
+
 ########## SCRIPTS ##########
 mkdir -p "$HOME/.local/bin"
 ln -sfn "$DOTFILES_DIR/scripts/md2rm" "$HOME/.local/bin/md2rm"
@@ -94,6 +100,9 @@ done
 # User-level custom slash commands (available in every session)
 { [ -e "$HOME/.claude/commands" ] || [ -L "$HOME/.claude/commands" ]; } && mv "$HOME/.claude/commands" "$HOME/.claude/commands.backup"
 ln -s "$DOTFILES_DIR/claude/commands" "$HOME/.claude/commands"
+# Hook scripts referenced from settings.json
+{ [ -e "$HOME/.claude/hooks" ] || [ -L "$HOME/.claude/hooks" ]; } && mv "$HOME/.claude/hooks" "$HOME/.claude/hooks.backup"
+ln -s "$DOTFILES_DIR/claude/hooks" "$HOME/.claude/hooks"
 
 # User-level skills, linked one by one: ~/.claude/skills also holds skills from other sources.
 # WORK_DOTFILES_DIR is a private repo for anything naming an employer, colleagues,

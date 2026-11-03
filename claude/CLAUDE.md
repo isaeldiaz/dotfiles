@@ -94,3 +94,16 @@ few minutes.
 Re-read each scope bullet and ask: does this say what, or how? Fix the ones that
 say how. This check exists because the rule above it is easy to agree with and
 easy to break three drafts running.
+
+## Long tasks and compaction
+
+For a task spanning several steps, keep `.claude/handoff.md` in the project
+current: goal, plan, steps done, next step, open problems. A hook puts it back
+into context after compaction. At a natural break with a large context, suggest
+`/compact` or a fresh session rather than pushing on.
+
+## Compact instructions
+
+When summarizing for compaction, keep: the user's goal and constraints,
+decisions made, files changed, failing tests or errors still open, and the next
+step. Drop file contents and command output that can be re-read.
