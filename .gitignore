@@ -1,3 +1,5 @@
 nvim/lazy-lock.json
 CLAUDE.md
 !claude/CLAUDE.md
+opencode/package.json
+opencode/package-lock.json

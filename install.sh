@@ -82,7 +82,7 @@ ln -sfn "$DOTFILES_DIR/scripts/md2rm" "$HOME/.local/bin/md2rm"
 
 ########## OPENCODE ##########
 mkdir -p "$HOME/.config/opencode/themes"
-for f in opencode.jsonc tui.json package.json package-lock.json; do
+for f in opencode.jsonc tui.json; do
   { [ -e "$HOME/.config/opencode/$f" ] || [ -L "$HOME/.config/opencode/$f" ]; } && mv "$HOME/.config/opencode/$f" "$HOME/.config/opencode/$f.backup"
   ln -s "$DOTFILES_DIR/opencode/$f" "$HOME/.config/opencode/$f"
 done
