@@ -1,5 +1,6 @@
 [user]
 	name = Isael Diaz
+	useConfigOnly = true
 [init]
 	defaultBranch = master
 [core]
