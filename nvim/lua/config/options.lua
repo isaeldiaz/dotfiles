@@ -61,8 +61,8 @@ opt.updatetime = 250 -- Faster completion
 opt.timeoutlen = 300 -- Faster key sequence completion
 
 -- Clipboard. Only couple the unnamed register to the OS clipboard when a real
--- local clipboard is present (an X11/Wayland display, or Neovide). Over SSH --
--- or on any headless box -- there is no display, so xclip/wl-paste cannot
+-- local clipboard is present (an X11/Wayland display, Windows, macOS, or
+-- Neovide). Over SSH -- or on any headless box -- there is no display, so xclip/wl-paste cannot
 -- work; with 'clipboard=unnamedplus' every `p` then round-trips through a
 -- broken provider that returns plain lines, silently destroying blockwise
 -- registers. (Plain Vim works because its default 'clipboard' is empty, so
@@ -73,10 +73,12 @@ opt.timeoutlen = 300 -- Faster key sequence completion
 -- A WezTerm SSH domain with multiplexing = 'WezTerm' spawns panes from
 -- wezterm-mux-server, which scrubs SSH_* from the environment, so treat that
 -- as remote too.
-local has_display = (vim.env.DISPLAY or vim.env.WAYLAND_DISPLAY) ~= nil
+local has_local_clipboard = (vim.env.DISPLAY or vim.env.WAYLAND_DISPLAY) ~= nil
+  or vim.fn.has("win32") == 1 -- win32yank
+  or vim.fn.has("mac") == 1 -- pbcopy
 local over_ssh = (vim.env.SSH_TTY or vim.env.SSH_CONNECTION) ~= nil
   or (vim.env.WEZTERM_EXECUTABLE or ""):match("wezterm%-mux%-server$") ~= nil
-local use_unnamedplus = has_display or vim.g.neovide
+local use_unnamedplus = has_local_clipboard or vim.g.neovide
 opt.clipboard = use_unnamedplus and "unnamedplus" or ""
 if over_ssh and not use_unnamedplus and vim.fn.has("nvim-0.10") == 1 then
   local ok, osc52 = pcall(require, "vim.ui.clipboard.osc52")
