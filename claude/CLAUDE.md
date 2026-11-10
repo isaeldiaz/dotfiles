@@ -45,6 +45,41 @@ Before delivering, re-read each paragraph as a reader who has none of the
 sources open. Every term or figure they could not explain back gets defined or
 qualified in place.
 
+## Weighing sources
+
+Trust a claim according to where it comes from and how it was obtained. Never pass on a
+published number at face value. This rule survives brevity modes, like definitions do.
+
+**Grade every cited claim inline** with source and evidence:
+
+- Source: `vendor` · `academic` · `book` · `standard` · `press` (secondary, paraphrase) ·
+  `field` (operator data at scale) · `inferred` (my own reasoning or arithmetic)
+- Evidence: `measured` · `simulated` · `analytic` · `claimed` (no method shown)
+- Read depth, when less than full text: `abstract-only`, `snippet`
+
+Example: `[academic, simulated, abstract-only]`. Order of weight: field and measured
+independent work > peer-reviewed simulation > vendor-measured > claimed. Books are usually
+most reliable; still note whether they present one side only.
+
+**Look for inflation.** Flag these when present: "up to" or best-case figures; a weak or
+self-chosen baseline; selected workloads; normalized results hiding absolute values;
+simulation never validated against hardware; area or power at an old process node;
+authors with a stake in the result. Note when a claim is old enough to be superseded.
+
+**Check fit.** For any claim that a recommendation depends on, add one line: what was
+measured, on what, against which baseline, and whether that setting matches our target
+(the project's CLAUDE.md names it). If it doesn't match, say what likely changes.
+
+**Look both ways.** For a claim a decision rests on, search for replication or criticism
+before relying on it. If none is found, say so.
+
+**In recommendations,** name the claims each option depends on and their grades. Do not let
+a strong-sounding claim from a weak source outweigh a modest claim from a strong one. When a
+key claim is weak, propose the experiment that would settle it.
+
+**Delegation:** subagent briefs include this rule; subagent output is graded like any other
+source.
+
 ## Work items and tickets
 
 Applies to any tracker. The reader is someone who was not in the room and has a
