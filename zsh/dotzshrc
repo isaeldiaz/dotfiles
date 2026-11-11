@@ -18,6 +18,9 @@ export LANG=en_US.UTF-8
 
 export EDITOR='nvim'
 
+# less shows archive listings and PDF text (Debian lesspipe; PDF needs pdftotext from poppler-utils)
+command -v lesspipe &>/dev/null && eval "$(SHELL=/bin/sh lesspipe)"
+
 # Source local overrides (not committed to repo)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
