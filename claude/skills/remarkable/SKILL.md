@@ -1,6 +1,6 @@
 ---
 name: remarkable
-description: Write a new Markdown document, or rewrite an existing one, so it reads well on the reMarkable 2 after md2rm converts it to EPUB/PDF — narrow tables, short code lines, diagrams readable without zooming. Use when the user wants a doc "for the reMarkable", "for the tablet", or asks to make a Markdown file reMarkable friendly.
+description: Write a new Markdown document, or rewrite an existing one, so it reads well on the reMarkable 2 after md2rm converts it to EPUB/PDF — narrow tables, short code lines, diagrams readable without zooming, plots readable in grayscale. Use when the user wants a doc "for the reMarkable", "for the tablet", or asks to make a Markdown file reMarkable friendly.
 argument-hint: "[FILE.md to transform | topic to write]"
 ---
 
@@ -60,6 +60,45 @@ Diagrams:
   SVG. md2rm renders it. Leave any mention of the source files in the text.
 - Box drawings: use box-drawing characters (`┌─┐`) or tag the block
   ` ```ascii `, and keep them within 60 columns.
+
+## Grayscale
+
+The reMarkable 2 shows 16 levels of gray. Hues of similar lightness (red and
+green, blue and orange) print as the same gray, and pale fills vanish.
+
+Plots and images:
+- Tell series apart by line style (solid, dashed, dotted), marker shape and a
+  label at the end of each line. Hue may stay as a third cue.
+- At most four series per panel; split into panels beyond that.
+- Lines at least 1.5 pt, text at least 8 pt at the printed size (141 mm wide).
+- Heatmaps: one sequential colormap with monotonic lightness (`Greys`,
+  `viridis`); write the value in each cell when there are few cells.
+- Bars and areas: hatching or distinct gray levels, not hue.
+- If the plot's source script is at hand, fix the script and re-render;
+  otherwise list the figure for the user as not grayscale-safe.
+
+Mermaid: no meaning carried by fill color alone; use node shape, a label or a
+border style (`stroke-dasharray`) instead.
+
+If the plot's script is at hand, audit its palette with the
+scientific-visualization skill (`sv` is defined there). Pass every series
+color and the axes background as six-digit hex:
+
+```sh
+sv python3 /skill/scripts/palette_audit.py --color 2a78d6 --color eb6834 \
+  --background fcfcfb --fail-on grayscale
+```
+
+A pair marked `review` (lightness difference under 10 CIE L*) can show as
+the same gray: give it distinct line styles and markers, or change a color.
+
+Then, for every image, convert and read the result:
+
+```sh
+magick IMG.png -colorspace Gray /tmp/IMG_gray.png
+```
+
+Every series and every label must still be distinguishable.
 
 ## Check
 
