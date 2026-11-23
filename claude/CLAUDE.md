@@ -111,6 +111,17 @@ few minutes.
 - An epic split so that one branch may prove infeasible must say that a "no" on
   that branch is a successful outcome, not a failure.
 
+**Study and exploration tickets**
+
+- Give a general goal and some initial guidance; the method is the assignee's
+  choice. Hints, known risks and places to look go in a "Starting points"
+  section marked as suggestions, not requirements.
+- Acceptance criteria say what the result must tell the team, not the form or
+  depth of the work. Keep them few, and still judgeable true or false.
+- Decisions and earlier results cited in a ticket are tentative unless marked
+  settled: "a first estimate suggests", not "the analysis finds".
+- A draft carries its proposed title in the text, so it is reviewed with the body.
+
 **Before drafting**
 
 - Open every file:line before citing it. Memory and an earlier grep are both
