@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50"
+  },
   "attribution": {
     "commit": "",
     "pr": ""
@@ -35,8 +38,5 @@
   },
   "tui": "default",
   "editorMode": "vim",
-  "voiceEnabled": true,
-  "env": {
-    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50"
-  }
+  "voiceEnabled": true
 }
