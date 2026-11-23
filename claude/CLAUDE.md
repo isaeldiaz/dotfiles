@@ -38,8 +38,9 @@ another chapter of the same report, not on an outside document.
   percent of what.
 - A paraphrased result says what was done, on what, and what was measured, so
   the reader can judge it without opening the source.
-- Brevity rules (e.g. a low-verbosity mode) never remove a definition or a
-  baseline. Cut elsewhere.
+- Brevity rules (e.g. a low-verbosity mode) never remove a definition, a
+  baseline, or report structure a project requires (executive summary, figure
+  explanations). Cut elsewhere.
 
 Before delivering, re-read each paragraph as a reader who has none of the
 sources open. Every term or figure they could not explain back gets defined or
@@ -79,6 +80,31 @@ key claim is weak, propose the experiment that would settle it.
 
 **Delegation:** subagent briefs include this rule; subagent output is graded like any other
 source.
+
+## Claims are bounded
+
+A reader must be able to tell what a result covers and what would change it. This rule
+survives brevity modes, like definitions do.
+
+- **Exact scope.** A verdict names the configuration it was computed for: size, mode,
+  variant, version. Check the nearest variant; if it flips the verdict, say so.
+- **Every bound has a source.** Each sweep range, limit and constant says whether it is a
+  standard's limit, a team decision, a sketch, or my own choice, and whether any result
+  touches it.
+- **Negative results name their levers.** What would make it pass, which assumption or
+  bound each lever breaks, and what it costs.
+- **Run the target case.** Where a model assumption departs from the target (the
+  project's CLAUDE.md names it), compute the target case; it is part of answering the
+  question, not scope creep. If it changes a result, it goes in the summary and the
+  result, not only in limitations.
+- **Say what an estimate leaves out** and which way that biases it: upper or lower bound.
+- **Explain from the model.** A step, plateau, gap or trend in a figure gets a mechanism
+  checked against the model's own numbers. If one member drives a trend, say so and give
+  the value without it.
+- **Show one count's arithmetic.** For a ratio or tally, define numerator and denominator
+  and work one value through. A table behind a figure covers every cell the figure shows.
+
+Before delivering a report, run the `report-review` skill.
 
 ## Work items and tickets
 

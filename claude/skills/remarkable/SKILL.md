@@ -27,6 +27,7 @@ The check below is the authority; these are the targets that keep it quiet.
 | Table | about 4 columns; md2rm sizes columns from each column's longest word, so long identifiers count more than column count |
 | Code line | 60 characters |
 | Diagram | 800 px wide, about 10 nodes |
+| PNG image | printed at the full 141 mm text width; height at most 1.2 x width |
 | Diagram label | 3 lines of ~20 characters |
 
 ## Fixing what does not fit
@@ -53,6 +54,12 @@ Diagrams:
 - Split a big diagram into an overview and one diagram per part.
 - Still too wide: shorten edge labels, and push nodes down a row with
   invisible links (`A ~~~ B`).
+- Automatic layout still does not fit: redraw the diagram in Pikchr, where
+  you place every box. Write `X.pikchr` and render `X.png` with the repo's
+  diagrams Makefile, or else:
+  `pikchr --svg-only X.pikchr | rsvg-convert -z 4 -b white -o X.png`.
+  Set label size with `fontscale` (about 1.1 gives 10 pt on a 3.5 in wide
+  diagram); `scale` does not change the printed size.
 - To check one diagram quickly, put only its block in a scratch `.md` and run
   the check on that.
 - For an image linked to a mermaid export (`X.svg` next to `X.mermaid`),
