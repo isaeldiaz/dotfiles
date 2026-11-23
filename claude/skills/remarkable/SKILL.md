@@ -68,6 +68,13 @@ Diagrams:
 - Box drawings: use box-drawing characters (`┌─┐`) or tag the block
   ` ```ascii `, and keep them within 60 columns.
 
+Source link: after every embedded PNG or SVG (diagram or plot), after a
+blank line, add `<!-- source: <path> -->` with the path of its text source
+relative to the document: the `.pikchr`/`.mermaid` file, or the script that
+writes the image. Agents read the source, not the image; md2rm hides the
+comment. Without the blank line pandoc drops the figure caption. Inlined
+` ```mermaid ` blocks need no link.
+
 ## Grayscale
 
 The reMarkable 2 shows 16 levels of gray. Hues of similar lightness (red and
