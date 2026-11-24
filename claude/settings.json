@@ -1,6 +1,8 @@
 {
   "env": {
-    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50"
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50",
+    "EDITOR": "nvim",
+    "VISUAL": "nvim"
   },
   "attribution": {
     "commit": "",
