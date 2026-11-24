@@ -14,6 +14,10 @@ if ($env:Path -notlike "*$usersProgPath*") {
     $env:Path += ";$usersProgPath"
 }
 
+# Editor (Claude Code ctrl+g). Terminal nvim crashes the WezTerm console; neovide must not fork.
+$env:EDITOR = "neovide --no-fork"
+$env:VISUAL = $env:EDITOR
+
 # Oh-My-Posh Prompt Configuration (Material Theme)
 $configPath = "$env:USERPROFILE\.config\oh-my-posh\config.json"
 if (Test-Path $configPath) {
